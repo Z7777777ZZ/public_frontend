@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { ArrowRight, Calendar, Tag, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -86,10 +87,10 @@ const categories = ["all", "data leakage", "host environment destruction", "harm
 const allTags = [...new Set(notes.flatMap((n) => n.tags))]
 
 export function NotesPageContent() {
+  const router = useRouter()
   const [activeCategory, setActiveCategory] = useState("all")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [expandedNote, setExpandedNote] = useState<number | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -192,10 +193,9 @@ export function NotesPageContent() {
                   className={cn(
                     "group relative cursor-pointer overflow-hidden rounded-xl border border-border bg-card/40 glass p-6 sm:p-7 transition-all duration-400 hover:border-primary/40 hover:bg-card/60 active:scale-[0.99] hover-lift opacity-0",
                     isVisible && "animate-fade-in-up",
-                    expandedNote === note.id && "border-primary/50 bg-card/70",
                   )}
                   style={{ animationDelay: `${index * 80 + 200}ms` }}
-                  onClick={() => setExpandedNote(expandedNote === note.id ? null : note.id)}
+                  onClick={() => router.push(`/datasets/${note.id}`)}
                 >
                   <div
                     className={cn(
