@@ -69,10 +69,10 @@ const wipItems: WipItem[] = [
 ]
 
 const recentActivity = [
-  { type: "commit", project: "einui", message: "Add new Button variants", time: "2 hours ago" },
-  { type: "branch", project: "llm-practice", message: "Created feature/mcp branch", time: "5 hours ago" },
-  { type: "commit", project: "einbiogpt", message: "Implement MCP protocol handlers", time: "1 day ago" },
-  { type: "commit", project: "handbuilt-linux", message: "Update kernel config", time: "2 days ago" },
+  { type: "commit", project: "einui", message: "testing trae...", time: "2 hours ago" },
+  { type: "branch", project: "llm-practice", message: "testing codebuddy...", time: "5 hours ago" },
+  { type: "commit", project: "einbiogpt", message: "testing ...", time: "1 day ago" },
+  { type: "commit", project: "handbuilt-linux", message: "testing...", time: "2 days ago" },
 ]
 
 export function WorkbenchPageContent() {
