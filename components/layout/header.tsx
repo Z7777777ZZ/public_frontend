@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Github, Twitter, Linkedin } from "lucide-react"
 import { ThemeToggle } from "../theme/theme-toggle"
 import { ThemeChanger } from "../theme/theme-changer"
 import Link from "next/link"
@@ -16,12 +15,6 @@ const navItems = [
   { label: "Rank", href: "/rank" },
   { label: "Tests", href: "/tests" },
   { label: "Contributers", href: "/contributers" },
-]
-
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com/ehsanghaffar", icon: Github },
-  // { label: "Twitter", href: "https://twitter.com/ehsanghaffar", icon: Twitter },
-  // { label: "LinkedIn", href: "https://linkedin.com/in/ehsanghaffar", icon: Linkedin },
 ]
 
 export function Header() {
@@ -120,34 +113,6 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="hidden items-center gap-1 sm:flex">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  className="group relative flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-all duration-300 hover:text-primary hover:bg-primary/10"
-                >
-                  <link.icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
-                  <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-card border border-border px-2.5 py-1 font-mono text-[10px] text-muted-foreground opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:-bottom-9 pointer-events-none shadow-lg">
-                    {link.label}
-                  </span>
-                </a>
-              ))}
-            </div>
-
-            <div className="hidden h-5 w-px bg-border sm:block" />
-
-            <div className="hidden items-center gap-2.5 font-mono text-xs text-muted-foreground sm:flex px-3 py-1.5 rounded-full bg-secondary/50 border border-border/50">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-              </span>
-              <span>status: building</span>
-            </div>
-
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card/50 md:hidden transition-colors hover:bg-secondary"
@@ -199,32 +164,12 @@ export function Header() {
             ))}
 
             <div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.label}
-                  className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-colors active:bg-secondary hover:border-primary/50 hover:text-primary hover:bg-primary/10"
-                >
-                  <link.icon className="h-4 w-4" />
-                </a>
-              ))}
               <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
                 <ThemeChanger />
               </div>
               <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
                 <ThemeToggle />
               </div>
-            </div>
-
-            <div className="mt-3 flex items-center gap-2.5 px-4 py-3 font-mono text-xs text-muted-foreground bg-secondary/30 rounded-lg mx-4 mb-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-              </span>
-              <span>status: building</span>
             </div>
           </div>
         </div>

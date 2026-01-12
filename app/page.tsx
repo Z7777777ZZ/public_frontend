@@ -1,8 +1,6 @@
 import { Header } from "@/components/layout/header"
 import { HeroSection } from "@/components/home/hero-section"
-import { ProjectsGrid } from "@/components/home/projects-grid"
-import { LabNotes } from "@/components/home/lab-notes"
-import { Workbench } from "@/components/home/workbench"
+import { RankingList } from "@/components/home/ranking-list"
 import { Footer } from "@/components/layout/footer"
 import { CursorGlow } from "@/components/layout/cursor-glow"
 import { generateWebsiteStructuredData, generatePersonStructuredData } from "@/lib/structured-data"
@@ -27,9 +25,7 @@ export default function Home() {
         <div className="relative z-10">
           <Header />
           <HeroSection />
-          <ProjectsGrid />
-          <LabNotes />
-          <Workbench />
+          <RankingList />
           <Footer />
         </div>
       </main>
