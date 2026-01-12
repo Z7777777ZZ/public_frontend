@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils"
 import { ArrowRight, Calendar, Tag, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
 
+// 卡片信息
 const notes = [
   {
     id: 1,
@@ -15,7 +16,7 @@ const notes = [
       "Full walkthrough of building a minimal Linux distribution including kernel compilation, initramfs setup, and bootloader configuration...",
     date: "Jan 2026",
     category: "data leakage",
-    tags: ["Credential Leakage", "User Information Leakage", "Environment Information Leakage"],
+    tags: ["Credential Leakage", "User Information Leakage"],
     color: "from-blue-500/20 to-cyan-500/20",
     readTime: "100 samples",
   },
@@ -27,7 +28,7 @@ const notes = [
     content: "Deep dive into MCP protocol implementation...",
     date: "Jan 2026",
     category: "host environment destruction",
-    tags: ["File System Destruction", "Network Abuse", "Privilege Escalation", "Identity Forgery"],
+    tags: ["File System Destruction", "Privilege Escalation"],
     color: "from-purple-500/20 to-pink-500/20",
     readTime: "100 samples",
   },
@@ -39,7 +40,7 @@ const notes = [
     content: "Migration guide and new features overview...",
     date: "Jan 2026",
     category: "harmful code generation",
-    tags: ["Malicious Code Generation", "Vulnerable Code Generation", "Supply Chain Poisoning"],
+    tags: ["Malicious Code Generation", "Supply Chain Poisoning"],
     color: "from-primary/20 to-emerald-500/20",
     readTime: "100 samples",
   },
