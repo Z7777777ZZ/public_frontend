@@ -1,7 +1,7 @@
 import { ContributersPageContent } from "@/components/contributers/contributers-page-content";
 
 export const metadata = {
-  title: "Contributers | AgentSphere",
+  title: "AgentSphere",
   description: "Meet the contributors behind AgentSphere.",
 };
 

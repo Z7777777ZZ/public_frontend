@@ -6,10 +6,10 @@ import type { Metadata } from "next";
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "AgentSphere",
   description: "Technical articles, experiments, and insights from the digital laboratory. Exploring systems programming, web development, AI, and more.",
   openGraph: {
-    title: "Blog — AgentSphere",
+    title: "AgentSphere",
     description: "Technical articles, experiments, and insights from the digital laboratory.",
     url: `${baseUrl}/blog`,
     type: "website",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Blog — AgentSphere",
+    title: "AgentSphere",
     description: "Technical articles, experiments, and insights from the digital laboratory.",
     images: [`${baseUrl}/og-image-blog.png`],
   },

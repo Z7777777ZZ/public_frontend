@@ -25,7 +25,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://eindev.ir"),
   title: {
-    default: "AgentSphere — Ehsan Ghaffar's Digital Laboratory",
+    default: "AgentSphere",
     template: "%s | AgentSphere",
   },
   description:

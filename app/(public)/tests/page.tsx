@@ -1,7 +1,7 @@
 import { TestsPageContent } from "@/components/tests/tests-page-content";
 
 export const metadata = {
-  title: "Tests | AgentSphere",
+  title: "AgentSphere",
   description: "Automated testing platform for coding agents.",
 };
 
