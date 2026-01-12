@@ -11,7 +11,7 @@ export default function PublicLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  const hideFooter = pathname?.includes("/datasets") || pathname?.includes("/rank");
+  const hideFooter = pathname?.includes("/datasets") || pathname?.includes("/rank") || pathname?.includes("/tests");
 
   return (
     <main className="relative min-h-screen overflow-hidden scanlines">
