@@ -193,38 +193,74 @@ export function DatasetDetailContent({ datasetId }: { datasetId: string }) {
           {/* Table Body */}
           <div className="divide-y divide-border/30">
             {filteredSamples.length > 0 ? (
-              filteredSamples.map((sample, index) => (
-                <div
-                  key={sample.sample_id}
-                  className={cn(
-                    "grid grid-cols-12 gap-4 px-6 py-4 text-sm transition-colors hover:bg-secondary/20 opacity-0",
-                    isVisible && "animate-fade-in",
-                  )}
-                  style={{ animationDelay: `${index * 50 + 300}ms` }}
-                >
-                  <div className="col-span-1 font-mono text-xs text-muted-foreground">{sample.sample_id.split("-")[1]}</div>
-                  <div className="col-span-2">
-                    <div className="font-medium truncate">{sample.category}</div>
-                    <div className="text-xs text-muted-foreground truncate">{sample.sub_category}</div>
+              filteredSamples.map((sample, index) => {
+                const isMasked = index >= 5
+                return (
+                  <div
+                    key={sample.sample_id}
+                    className={cn(
+                      "grid grid-cols-12 gap-4 px-6 py-4 text-sm transition-colors hover:bg-secondary/20 opacity-0",
+                      isVisible && "animate-fade-in",
+                    )}
+                    style={{ animationDelay: `${index * 50 + 300}ms` }}
+                  >
+                    {/* ID - 保留可见 */}
+                    <div className="col-span-1 font-mono text-xs text-muted-foreground">
+                      {sample.sample_id.split("-")[1]}
+                    </div>
+                    
+                    {/* Category - 保留可见 */}
+                    <div className="col-span-2">
+                      <div className="font-medium truncate">{sample.category}</div>
+                      <div className="text-xs text-muted-foreground truncate">
+                        {isMasked ? (
+                          <span className="opacity-10 select-none">████████</span>
+                        ) : (
+                          sample.sub_category
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* User Instruction - 马赛克 */}
+                    <div className="col-span-3">
+                      {isMasked ? (
+                        <p className="text-muted-foreground opacity-10 select-none">████████████████████</p>
+                      ) : (
+                        <p className="text-muted-foreground line-clamp-2">{sample.user_instruction}</p>
+                      )}
+                    </div>
+                    
+                    {/* Task Prompt - 马赛克 */}
+                    <div className="col-span-3">
+                      {isMasked ? (
+                        <p className="text-muted-foreground opacity-10 select-none">████████████████████</p>
+                      ) : (
+                        <p className="text-muted-foreground line-clamp-2">{sample.task_prompt}</p>
+                      )}
+                    </div>
+                    
+                    {/* Hiding Method - 马赛克 */}
+                    <div className="col-span-2">
+                      {isMasked ? (
+                        <span className="inline-block px-2 py-1 rounded border border-border/30 bg-secondary/10 font-mono text-xs opacity-10 select-none">
+                          ██████
+                        </span>
+                      ) : (
+                        <span className="inline-block px-2 py-1 rounded border border-border/60 bg-secondary/40 font-mono text-xs truncate max-w-full">
+                          {sample.hiding_method}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* Risk Level - 保留可见 */}
+                    <div className="col-span-1">
+                      <span className={cn("inline-block px-2 py-1 rounded border font-mono text-xs uppercase", riskLevelColors[sample.risk_level])}>
+                        {sample.risk_level.slice(0, 4)}
+                      </span>
+                    </div>
                   </div>
-                  <div className="col-span-3">
-                    <p className="text-muted-foreground line-clamp-2">{sample.user_instruction}</p>
-                  </div>
-                  <div className="col-span-3">
-                    <p className="text-muted-foreground line-clamp-2">{sample.task_prompt}</p>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="inline-block px-2 py-1 rounded border border-border/60 bg-secondary/40 font-mono text-xs truncate max-w-full">
-                      {sample.hiding_method}
-                    </span>
-                  </div>
-                  <div className="col-span-1">
-                    <span className={cn("inline-block px-2 py-1 rounded border font-mono text-xs uppercase", riskLevelColors[sample.risk_level])}>
-                      {sample.risk_level.slice(0, 4)}
-                    </span>
-                  </div>
-                </div>
-              ))
+                )
+              })
             ) : (
               <div className="px-6 py-12 text-center">
                 <p className="font-mono text-sm text-muted-foreground">No samples found matching your search.</p>
