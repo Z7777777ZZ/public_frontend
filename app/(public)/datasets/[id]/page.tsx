@@ -4,10 +4,11 @@ export const metadata = {
   title: "AgentSphere",
 };
 
-export default function DatasetDetailPage({ params }: { params: { id: string } }) {
+export default async function DatasetDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   return (
     <div className="pt-24">
-      <DatasetDetailContent datasetId={params.id} />
+      <DatasetDetailContent datasetId={id} />
     </div>
   );
 }

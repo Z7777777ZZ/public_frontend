@@ -36,18 +36,18 @@ const contributors: Contributor[] = [
   },
   {
     id: 3,
-    name: "Sijie Zhi",
+    name: "Contributor",
     role: "Contributor",
     bio: "Dedicated to Agent Security",
-    avatar: "/contributors/zhisijie.jpg",
+    avatar: "",
     github: "https://github.com",
   },
   {
     id: 4,
-    name: "Wanmeng Ding",
+    name: "Contributor",
     role: "Contributor",
     bio: "Dedicated to Agent Security",
-    avatar: "/contributors/dingwanmeng.jpg",
+    avatar: "",
     github: "https://github.com",
   },
 ]

@@ -127,18 +127,35 @@ export function DatasetDetailContent({ datasetId }: { datasetId: string }) {
             Back to Datasets
           </button>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-wider text-primary mb-2">{info.category}</p>
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{info.title}</h1>
-              <p className="text-muted-foreground mt-2">{info.description}</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-center px-6 py-3 rounded-xl border border-border bg-card/40 glass">
-                <p className="text-2xl font-bold tabular-nums">{total}</p>
-                <p className="font-mono text-xs text-muted-foreground">Total Samples</p>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <p className="font-mono text-xs uppercase tracking-wider text-primary mb-2">{info.category}</p>
+                <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{info.title}</h1>
+                <p className="text-muted-foreground mt-2">{info.description}</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-center px-6 py-3 rounded-xl border border-border bg-card/40 glass">
+                  <p className="text-2xl font-bold tabular-nums">{total}</p>
+                  <p className="font-mono text-xs text-muted-foreground">Total Samples</p>
+                </div>
               </div>
             </div>
+
+            {/* Demo 入口按钮 */}
+            {datasetId === "6" ? (
+              <button
+                onClick={() => router.push(`/datasets/${datasetId}/demo`)}
+                className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/50 hover:border-primary transition-all hover:shadow-lg hover:shadow-primary/20 group"
+              >
+                <span className="font-semibold">View Case</span>
+                <ArrowLeft className="h-4 w-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+              </button>
+            ) : (
+              <div className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-lg bg-secondary/20 border border-border/40 opacity-60 cursor-not-allowed">
+                <span className="font-medium text-muted-foreground">Demo Coming Soon</span>
+              </div>
+            )}
           </div>
         </div>
 

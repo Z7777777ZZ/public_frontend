@@ -56,9 +56,7 @@ export function HeroSection() {
             </div>
 
             <p className="max-w-lg text-base sm:text-lg leading-relaxed text-muted-foreground animate-fade-in-up stagger-2">
-              Welcome to my digital workshop — a space for experiments, prototypes, and open-source artifacts. Currently
-              building at <span className="text-foreground font-medium">...</span>. Here, ideas are forged,
-              tested, and refined. Not a portfolio. A laboratory.
+            We evaluate the safety and robustness of existing coding agents from multiple dimensions. <span className="text-foreground font-medium">...</span>. We will delve deeper into the field of coding agents and contribute our own strength
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-3">
