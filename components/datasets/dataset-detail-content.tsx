@@ -194,7 +194,9 @@ export function DatasetDetailContent({ datasetId }: { datasetId: string }) {
           <div className="divide-y divide-border/30">
             {filteredSamples.length > 0 ? (
               filteredSamples.map((sample, index) => {
-                const isMasked = index >= 5
+                // 计算全局索引（跨页）
+                const globalIndex = (currentPage - 1) * pageSize + index
+                const isMasked = globalIndex >= 5
                 return (
                   <div
                     key={sample.sample_id}
