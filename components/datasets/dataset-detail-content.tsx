@@ -158,20 +158,14 @@ export function DatasetDetailContent({ datasetId }: { datasetId: string }) {
               </div>
             </div>
 
-            {/* Demo 入口按钮 */}
-            {(datasetId === "6" || datasetId === "5") ? (
-              <button
-                onClick={() => router.push(`/datasets/${datasetId}/demo`)}
-                className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/50 hover:border-primary transition-all hover:shadow-lg hover:shadow-primary/20 group"
-              >
-                <span className="font-semibold">View Case</span>
-                <ArrowLeft className="h-4 w-4 rotate-180 group-hover:translate-x-1 transition-transform" />
-              </button>
-            ) : (
-              <div className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-lg bg-secondary/20 border border-border/40 opacity-60 cursor-not-allowed">
-                <span className="font-medium text-muted-foreground">Demo Coming Soon</span>
-              </div>
-            )}
+            {/* Demo 入口按钮 - 所有dataset都显示 */}
+            <button
+              onClick={() => router.push(`/datasets/${datasetId}/demo`)}
+              className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/50 hover:border-primary transition-all hover:shadow-lg hover:shadow-primary/20 group"
+            >
+              <span className="font-semibold">View Case</span>
+              <ArrowLeft className="h-4 w-4 rotate-180 group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
         </div>
 
