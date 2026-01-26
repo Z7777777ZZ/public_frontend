@@ -40,6 +40,113 @@ const datasetInfo: Record<string, { title: string; category: string; description
   }
 }
 
+// Context Pollution Demo Component
+function ContextPollutionDemo() {
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      {/* Hero Section */}
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 mb-4">
+          <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/30 font-mono">
+            HIGH
+          </Badge>
+          <span className="text-sm text-muted-foreground">Malicious Instruction Persistence</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-3">
+          Context Pollution Attack
+        </h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Demonstration of malicious prompt injection through context pollution
+        </p>
+      </div>
+
+      {/* Video Player */}
+      <div className="mb-8">
+        <div className="relative rounded-xl overflow-hidden border border-border bg-black/40 shadow-2xl">
+          <video
+            className="w-full aspect-video"
+            controls
+            preload="metadata"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            poster="/demo-video/thumbnail.jpg"
+          >
+            <source 
+              src="/demo-video/1-Context_Pollution(malicious_instruction_persistence)剪辑版_副本2.mp4" 
+              type="video/mp4" 
+            />
+            Your browser does not support the video tag.
+          </video>
+          
+          {/* Play overlay when paused */}
+          {!isPlaying && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
+              <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center">
+                <div className="w-0 h-0 border-l-8 border-l-white border-y-6 border-y-transparent ml-1"></div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Description */}
+      <div className="mb-8 p-6 rounded-xl border border-border bg-card/40 glass">
+        <h3 className="font-semibold text-lg mb-3">Attack Overview</h3>
+        <p className="text-muted-foreground leading-relaxed mb-4">
+          This demonstration shows how malicious instructions can be injected and persisted 
+          in the AI agent's context through carefully crafted prompts. The attacker exploits 
+          the context window to maintain malicious instructions across multiple interactions.
+        </p>
+        <div className="grid md:grid-cols-2 gap-4 mt-4">
+          <div className="p-4 rounded-lg bg-secondary/40 border border-border/40">
+            <div className="text-xs font-mono uppercase tracking-wider text-orange-400 mb-2">
+              Attack Vector
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Context injection through hidden prompts
+            </p>
+          </div>
+          <div className="p-4 rounded-lg bg-secondary/40 border border-border/40">
+            <div className="text-xs font-mono uppercase tracking-wider text-orange-400 mb-2">
+              Impact
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Persistent malicious behavior in AI responses
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Key Points */}
+      <div className="grid md:grid-cols-3 gap-4">
+        <div className="p-6 rounded-xl border border-border bg-card/40">
+          <div className="text-2xl font-bold text-primary mb-2">01</div>
+          <h4 className="font-semibold mb-2">Context Injection</h4>
+          <p className="text-sm text-muted-foreground">
+            Malicious instructions are injected into the context window
+          </p>
+        </div>
+        <div className="p-6 rounded-xl border border-border bg-card/40">
+          <div className="text-2xl font-bold text-primary mb-2">02</div>
+          <h4 className="font-semibold mb-2">Instruction Persistence</h4>
+          <p className="text-sm text-muted-foreground">
+            Instructions remain active across multiple interactions
+          </p>
+        </div>
+        <div className="p-6 rounded-xl border border-border bg-card/40">
+          <div className="text-2xl font-bold text-primary mb-2">03</div>
+          <h4 className="font-semibold mb-2">Behavior Manipulation</h4>
+          <p className="text-sm text-muted-foreground">
+            AI agent behavior is altered without user awareness
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // IDE Vulnerability Demo Component
 function IDEVulnerabilityDemo() {
   const [currentStep, setCurrentStep] = useState(0)
@@ -319,7 +426,7 @@ Leaked information:
 export function DemoPageContent({ datasetId }: { datasetId: string }) {
   const router = useRouter()
   const info = datasetInfo[datasetId] || datasetInfo["6"]
-  const hasDemo = datasetId === "6"
+  const hasDemo = datasetId === "6" || datasetId === "5"
 
   return (
     <section className="px-4 sm:px-6 py-12 sm:py-20 min-h-screen">
@@ -347,7 +454,11 @@ export function DemoPageContent({ datasetId }: { datasetId: string }) {
 
         {/* Demo Content */}
         {hasDemo ? (
-          <IDEVulnerabilityDemo />
+          datasetId === "6" ? (
+            <IDEVulnerabilityDemo />
+          ) : datasetId === "5" ? (
+            <ContextPollutionDemo />
+          ) : null
         ) : (
           <div className="text-center py-20">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/20 mb-4">

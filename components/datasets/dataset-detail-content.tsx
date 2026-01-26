@@ -143,7 +143,7 @@ export function DatasetDetailContent({ datasetId }: { datasetId: string }) {
             </div>
 
             {/* Demo 入口按钮 */}
-            {datasetId === "6" ? (
+            {(datasetId === "6" || datasetId === "5") ? (
               <button
                 onClick={() => router.push(`/datasets/${datasetId}/demo`)}
                 className="flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/50 hover:border-primary transition-all hover:shadow-lg hover:shadow-primary/20 group"
