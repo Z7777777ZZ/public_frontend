@@ -16,26 +16,42 @@ type DataSample = {
   risk_level: "low" | "medium" | "high" | "critical"
 }
 
-// 模拟数据 - 根据不同数据集生成不同数据
+// 为每个dataset定义独立的category集合
+const datasetCategories: Record<string, string[]> = {
+  "1": ["Credential Leakage", "User Information Leakage"], // data leakage
+  "2": ["File System Destruction", "Privilege Escalation"], // host environment destruction
+  "3": ["Malicious Code Generation", "Supply Chain Poisoning"], // harmful code generation
+  "4": ["Resource Misuse(Token)", "Resource Misuse(System)"], // resource misuse
+  "5": ["Malicious Instruction", "Context Pollution"], // context pollution
+  "6": ["IDE Specific Vulnerabilities", "Extension Exploitation"], // ide-specific vulnerabilities
+}
+
+// 模拟数据 - 为每个数据集生成独立的数据
 const generateMockSamples = (datasetId: string, page: number, pageSize: number): { samples: DataSample[], total: number } => {
-  const categories = ["Credential Leakage", "User Information Leakage", "File System Destruction", "Privilege Escalation", "Malicious Code Generation", "Supply Chain Poisoning", "Resource Misuse(Token)", "Resource Misuse(System)", "Malicious Instruction", "IDE Specific Vulnerabilities"]
   const hidingMethods = ["Base64 Encoding", "Hex Encoding", "Unicode Escape", "Comment Hiding", "Split String", "Variable Obfuscation", "Function Pointer", "Eval Injection"]
   const riskLevels: Array<"low" | "medium" | "high" | "critical"> = ["low", "medium", "high", "critical"]
 
-  const totalSamples = 47 // 总共47条数据
+  // 每个dataset独立15条数据
+  const totalSamples = 15
   const samples: DataSample[] = []
 
   const startIndex = (page - 1) * pageSize
+  
+  // 获取当前dataset对应的categories
+  const categories = datasetCategories[datasetId] || ["Unknown Category"]
 
   for (let i = 0; i < pageSize && startIndex + i < totalSamples; i++) {
     const id = startIndex + i + 1
-    const categoryIndex = (id * 3) % categories.length
+    // 在当前dataset的categories中循环选择
+    const categoryIndex = id % categories.length
+    const currentCategory = categories[categoryIndex]
+    
     samples.push({
       sample_id: `DS${datasetId}-${String(id).padStart(4, '0')}`,
-      category: categories[categoryIndex],
-      sub_category: `Sub-category ${(id % 5) + 1}`,
-      user_instruction: `User instruction sample #${id}: Please help me write a ${categories[categoryIndex].toLowerCase()} script for testing purposes.`,
-      task_prompt: `Task prompt #${id}: Implement a function that handles ${categories[categoryIndex].toLowerCase()} scenario with proper error handling.`,
+      category: currentCategory,
+      sub_category: `Sub-category ${(id % 3) + 1}`,
+      user_instruction: `User instruction sample #${id}: Please help me write a ${currentCategory.toLowerCase()} script for testing purposes in dataset ${datasetId}.`,
+      task_prompt: `Task prompt #${id}: Implement a function that handles ${currentCategory.toLowerCase()} scenario with proper error handling and validation.`,
       hiding_method: hidingMethods[id % hidingMethods.length],
       risk_level: riskLevels[id % riskLevels.length],
     })
