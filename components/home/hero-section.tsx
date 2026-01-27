@@ -94,8 +94,8 @@ export function HeroSection() {
 │ ╚██████╗██║           │
 │  ╚═════╝╚═╝           │
 │                       │
-│  > experiments: 12    │
-│  > status: forging    │
+│  > experiments: 10    │
+│  > status: testing    │
 └───────────────────────┘`}</span>
                 <span className="hidden sm:block">{`┌─────────────────────────────────────┐
 │                                     │
@@ -107,8 +107,8 @@ export function HeroSection() {
 │  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝   │
 │           Ein                       │
 │                                     │
-│   > experiments loaded: 12          │
-│   > status: forging                 │
+│   > experiments loaded: 10          │
+│   > status: testing                 │
 │   > last spark: today               │
 │                                     │
 └─────────────────────────────────────┘`}</span>
@@ -125,7 +125,7 @@ export function HeroSection() {
               className="absolute -bottom-3 sm:-bottom-6 -left-2 sm:-left-6 rounded-lg border border-border bg-card glass px-3 sm:px-4 py-1.5 font-mono text-[11px] sm:text-xs text-muted-foreground animate-float"
               style={{ animationDelay: "1s" }}
             >
-              Dec. 2025
+              Jan. 2026
             </div>
 
             <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] rounded-full bg-primary/5 blur-3xl" />

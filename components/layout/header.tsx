@@ -106,10 +106,10 @@ export function Header() {
                 />
               </Link>
             ))}
-            <div className="ml-2 flex items-center gap-1">
+            {/* <div className="ml-2 flex items-center gap-1">
               <ThemeChanger />
               <ThemeToggle />
-            </div>
+            </div> */}
           </div>
 
           <div className="flex items-center gap-4">
@@ -163,14 +163,14 @@ export function Header() {
               </Link>
             ))}
 
-            <div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
+            {/* <div className="mt-4 flex items-center gap-2 border-t border-border/50 pt-4 px-4">
               <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
                 <ThemeChanger />
               </div>
               <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-border/50">
                 <ThemeToggle />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
