@@ -105,7 +105,7 @@ export function HeroSection() {
 │ ██║     ██║   ██║██║  ██║██╔══╝     │
 │ ╚██████╗╚██████╔╝██████╔╝███████╗   │
 │  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝   │
-│           Ein                       │
+│                                     │
 │                                     │
 │   > experiments loaded: 10          │
 │   > status: testing                 │
