@@ -1,9 +1,0 @@
-
-Step1: External malicious MD file introduced
-The user's workspace is introduced to an external MD file containing an attack payload of the "Data Leakage" type.
-
-Step2: Agent Instructed to Run File
-The user instructs the coding agent to operate according to the external MD file.
-
-Step3: Attack Success
-The payload in the MD file is executed, leaking user information and sending it to the attacker's web server, resulting in a successful attack.

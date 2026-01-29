@@ -1,8 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import { Github, Linkedin, Mail, Globe, Users } from "lucide-react"
+import { Linkedin, Mail, Globe, Users } from "lucide-react"
 import NextImage from "next/image"
 
 type Contributor = {
@@ -68,7 +67,7 @@ const contributors: Contributor[] = [
   },
 ]
 
-const SocialLink = ({ icon: Icon, href, label }: { icon: any; href?: string; label: string }) => {
+const SocialLink = ({ icon: Icon, href, label }: { icon: React.ComponentType<{ className?: string }>; href?: string; label: string }) => {
   if (!href) return null
 
   return (
@@ -84,18 +83,66 @@ const SocialLink = ({ icon: Icon, href, label }: { icon: any; href?: string; lab
   )
 }
 
+// Contributor Card Component - 避免重复代码
+function ContributorCard({ contributor, index, isPriority = false }: { 
+  contributor: Contributor; 
+  index: number;
+  isPriority?: boolean;
+}) {
+  return (
+    <div
+      className="group rounded-xl border border-border bg-card/40 glass overflow-hidden transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover-lift relative animate-slide-up-fade"
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      {/* Avatar */}
+      <div className="relative aspect-square bg-secondary/30 overflow-hidden">
+        <NextImage
+          src={contributor.avatar}
+          alt={contributor.name}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          priority={isPriority}
+          loading={isPriority ? undefined : "lazy"}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      </div>
+
+      {/* Info */}
+      <div className="p-5 space-y-3">
+        <div>
+          <h3 className="font-semibold text-base tracking-tight transition-colors group-hover:text-gradient">
+            {contributor.name}
+          </h3>
+          <p className="font-mono text-xs text-primary uppercase tracking-wider mt-0.5">
+            {contributor.role}
+          </p>
+        </div>
+        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+          {contributor.bio}
+        </p>
+
+        {/* Social Links */}
+        <div className="flex items-center gap-2 pt-2">
+          {/* <SocialLink icon={Github} href={contributor.github} label="GitHub" /> */}
+          <SocialLink icon={Linkedin} href={contributor.linkedin} label="LinkedIn" />
+          <SocialLink icon={Mail} href={contributor.email ? `mailto:${contributor.email}` : undefined} label="Email" />
+          <SocialLink icon={Globe} href={contributor.website} label="Website" />
+        </div>
+      </div>
+
+      {/* Hover Border */}
+      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-primary to-transparent transition-all duration-500 group-hover:w-full" />
+    </div>
+  )
+}
+
 export function ContributersPageContent() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    setIsVisible(true)
-  }, [])
-
   return (
     <section className="px-4 sm:px-6 py-12 sm:py-20">
       <div className="mx-auto max-w-7xl">
         {/* Hero */}
-        <div className={cn("mb-12 sm:mb-16 space-y-4 text-center opacity-0", isVisible && "animate-fade-in-up")}>
+        <div className="mb-12 sm:mb-16 space-y-4 text-center animate-slide-up-fade">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2">
             <Users className="h-3.5 w-3.5 text-primary" />
             <span className="font-mono text-xs uppercase tracking-widest text-primary">Team</span>
@@ -111,11 +158,8 @@ export function ContributersPageContent() {
           {/* First Row: Text + 2 contributors + Text */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Left Text Area */}
-            <div
-              className={cn(
-                "hidden lg:flex flex-col items-center justify-center opacity-0",
-                isVisible && "animate-fade-in-up",
-              )}
+            <div 
+              className="hidden lg:flex flex-col items-center justify-center animate-slide-up-fade"
               style={{ animationDelay: "50ms" }}
             >
               <div className="text-center space-y-2">
@@ -128,62 +172,20 @@ export function ContributersPageContent() {
               </div>
             </div>
 
-            {/* Contributors */}
+            {/* First 2 Contributors - 优先加载 */}
             {contributors.slice(0, 2).map((contributor, index) => (
-              <div
-                key={contributor.id}
-                className={cn(
-                  "group rounded-xl border border-border bg-card/40 glass overflow-hidden transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover-lift opacity-0 relative",
-                  isVisible && "animate-fade-in-up",
-                )}
-                style={{ animationDelay: `${(index + 1) * 100 + 150}ms` }}
-              >
-                {/* Avatar */}
-                <div className="relative aspect-square bg-secondary/30 overflow-hidden">
-                  <NextImage
-                    src={contributor.avatar}
-                    alt={contributor.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                </div>
-
-                {/* Info */}
-                <div className="p-5 space-y-3">
-                  <div>
-                    <h3 className="font-semibold text-base tracking-tight transition-colors group-hover:text-gradient">
-                      {contributor.name}
-                    </h3>
-                    <p className="font-mono text-xs text-primary uppercase tracking-wider mt-0.5">
-                      {contributor.role}
-                    </p>
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {contributor.bio}
-                  </p>
-
-                  {/* Social Links */}
-                  <div className="flex items-center gap-2 pt-2">
-                    {/* <SocialLink icon={Github} href={contributor.github} label="GitHub" /> */}
-                    <SocialLink icon={Linkedin} href={contributor.linkedin} label="LinkedIn" />
-                    <SocialLink icon={Mail} href={contributor.email ? `mailto:${contributor.email}` : undefined} label="Email" />
-                    <SocialLink icon={Globe} href={contributor.website} label="Website" />
-                  </div>
-                </div>
-
-                {/* Hover Border */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-primary to-transparent transition-all duration-500 group-hover:w-full" />
-              </div>
+              <ContributorCard 
+                key={contributor.id} 
+                contributor={contributor} 
+                index={index + 1}
+                isPriority={true}
+              />
             ))}
 
             {/* Right Text Area */}
-            <div
-              className={cn(
-                "hidden lg:flex flex-col items-center justify-center opacity-0",
-                isVisible && "animate-fade-in-up",
-              )}
-              style={{ animationDelay: "350ms" }}
+            <div 
+              className="hidden lg:flex flex-col items-center justify-center animate-slide-up-fade"
+              style={{ animationDelay: "180ms" }}
             >
               <div className="text-center space-y-2 max-w-[200px]">
                 <p className="font-mono text-sm text-primary font-semibold">
@@ -196,60 +198,24 @@ export function ContributersPageContent() {
             </div>
           </div>
 
-          {/* Second Row: 4 contributors */}
+          {/* Second Row: 4 contributors - 懒加载 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {contributors.slice(2, 6).map((contributor, index) => (
-              <div
-                key={contributor.id}
-                className={cn(
-                  "group rounded-xl border border-border bg-card/40 glass overflow-hidden transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover-lift opacity-0 relative",
-                  isVisible && "animate-fade-in-up",
-                )}
-                style={{ animationDelay: `${(index + 4) * 100 + 150}ms` }}
-              >
-                {/* Avatar */}
-                <div className="relative aspect-square bg-secondary/30 overflow-hidden">
-                  <NextImage
-                    src={contributor.avatar}
-                    alt={contributor.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                </div>
-
-                {/* Info */}
-                <div className="p-5 space-y-3">
-                  <div>
-                    <h3 className="font-semibold text-base tracking-tight transition-colors group-hover:text-gradient">
-                      {contributor.name}
-                    </h3>
-                    <p className="font-mono text-xs text-primary uppercase tracking-wider mt-0.5">
-                      {contributor.role}
-                    </p>
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                    {contributor.bio}
-                  </p>
-
-                  {/* Social Links */}
-                  <div className="flex items-center gap-2 pt-2">
-                    {/* <SocialLink icon={Github} href={contributor.github} label="GitHub" /> */}
-                    <SocialLink icon={Linkedin} href={contributor.linkedin} label="LinkedIn" />
-                    <SocialLink icon={Mail} href={contributor.email ? `mailto:${contributor.email}` : undefined} label="Email" />
-                    <SocialLink icon={Globe} href={contributor.website} label="Website" />
-                  </div>
-                </div>
-
-                {/* Hover Border */}
-                <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-primary to-transparent transition-all duration-500 group-hover:w-full" />
-              </div>
+              <ContributorCard 
+                key={contributor.id} 
+                contributor={contributor} 
+                index={index + 4}
+                isPriority={false}
+              />
             ))}
           </div>
         </div>
 
         {/* Join Us CTA */}
-        <div className={cn("mt-16 rounded-xl border border-dashed border-border/50 bg-secondary/20 p-8 text-center opacity-0", isVisible && "animate-fade-in-up stagger-6")}>
+        <div 
+          className="mt-16 rounded-xl border border-dashed border-border/50 bg-secondary/20 p-8 text-center animate-slide-up-fade"
+          style={{ animationDelay: "500ms" }}
+        >
         </div>
       </div>
     </section>

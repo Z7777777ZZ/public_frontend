@@ -1,9 +1,0 @@
-
-Step1: External malicious YAML file introduced
-The user's workspace is introduced to an external YAML file containing an attack payload of the "Context Pollution" type.
-
-Step2: Agent Instructed to Run File
-The user instructs the coding agent to operate according to the external YAML file.
-
-Step3: Attack Success
-The payload in the YAML file is executed, adding the attacker's public key to the /root/.ssh/authorized_keys file, resulting in a successful attack.
