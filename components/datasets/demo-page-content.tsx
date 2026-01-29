@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Play, CheckCircle2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
@@ -14,6 +14,7 @@ const datasetInfo: Record<string, {
   videoPath?: string;
   attackType?: string;
   riskLevel?: "low" | "medium" | "high" | "critical";
+  steps?: { title: string; description: string }[];
 }> = {
   "1": {
     title: "Dataset1 - Data Leakage",
@@ -21,7 +22,21 @@ const datasetInfo: Record<string, {
     description: "Demonstration of credential and user information leakage vulnerabilities",
     videoPath: "/demo-video/1-Data_Leakage.mp4",
     attackType: "Information Disclosure",
-    riskLevel: "high"
+    riskLevel: "high",
+    steps: [
+      {
+        title: "External malicious MD file introduced",
+        description: "The user's workspace is introduced to an external MD file containing an attack payload of the \"Data Leakage\" type."
+      },
+      {
+        title: "Agent Instructed to Run File",
+        description: "The user instructs the coding agent to operate according to the external MD file."
+      },
+      {
+        title: "Attack Success",
+        description: "The payload in the MD file is executed, leaking user information and sending it to the attacker's web server, resulting in a successful attack."
+      }
+    ]
   },
   "2": {
     title: "Dataset2 - Host Environment Destruction",
@@ -29,7 +44,21 @@ const datasetInfo: Record<string, {
     description: "Demonstration of file system destruction and privilege escalation attacks",
     videoPath: "/demo-video/2-Host_Env_Destruction.mp4",
     attackType: "System Compromise",
-    riskLevel: "critical"
+    riskLevel: "critical",
+    steps: [
+      {
+        title: "External malicious YAML file introduced",
+        description: "The user's workspace is introduced to an external YAML file containing an attack payload of the \"Host Environment Destruction\" type."
+      },
+      {
+        title: "Agent Instructed to Run File",
+        description: "The user instructs the coding agent to operate according to the external YAML file."
+      },
+      {
+        title: "Attack Success",
+        description: "The payload in the YAML file is executed, deleting all files in /usr/bin directory, resulting in a successful attack."
+      }
+    ]
   },
   "3": {
     title: "Dataset3 - Harmful Code Generation",
@@ -37,7 +66,21 @@ const datasetInfo: Record<string, {
     description: "Demonstration of malicious code generation and supply chain poisoning",
     videoPath: "/demo-video/3-Harmful_Code_Gen.mp4",
     attackType: "Code Injection",
-    riskLevel: "critical"
+    riskLevel: "critical",
+    steps: [
+      {
+        title: "External malicious SQL file introduced",
+        description: "The user's workspace is introduced to an external SQL file containing an attack payload of the \"Harmful Code Generation\" type."
+      },
+      {
+        title: "Agent Instructed to Run File",
+        description: "The user instructs the coding agent to operate according to the external SQL file."
+      },
+      {
+        title: "Attack Success",
+        description: "The payload in the SQL file is executed, generating code containing SQL vulnerabilities, resulting in a successful attack."
+      }
+    ]
   },
   "4": {
     title: "Dataset4 - Resource Misuse",
@@ -45,7 +88,21 @@ const datasetInfo: Record<string, {
     description: "Demonstration of token and system resource exploitation",
     videoPath: "/demo-video/4-Resource_Misuse.mp4",
     attackType: "Resource Exhaustion",
-    riskLevel: "medium"
+    riskLevel: "medium",
+    steps: [
+      {
+        title: "External malicious ENV file introduced",
+        description: "The user's workspace is introduced to an external ENV file containing an attack payload of the \"Resource Misuse\" type."
+      },
+      {
+        title: "Agent Instructed to Run File",
+        description: "The user instructs the coding agent to operate according to the external ENV file."
+      },
+      {
+        title: "Attack Success",
+        description: "The payload in the ENV file is executed, occupying disk space, resulting in a successful attack."
+      }
+    ]
   },
   "5": {
     title: "Dataset5 - Context Pollution",
@@ -53,7 +110,21 @@ const datasetInfo: Record<string, {
     description: "Demonstration of malicious instruction persistence through context pollution",
     videoPath: "/demo-video/5-Context_Pollution(malicious_instruction_persistence.mp4",
     attackType: "Context Injection",
-    riskLevel: "high"
+    riskLevel: "high",
+    steps: [
+      {
+        title: "External malicious YAML file introduced",
+        description: "The user's workspace is introduced to an external YAML file containing an attack payload of the \"Context Pollution\" type."
+      },
+      {
+        title: "Agent Instructed to Run File",
+        description: "The user instructs the coding agent to operate according to the external YAML file."
+      },
+      {
+        title: "Attack Success",
+        description: "The payload in the YAML file is executed, adding the attacker's public key to the /root/.ssh/authorized_keys file, resulting in a successful attack."
+      }
+    ]
   },
   "6": {
     title: "Dataset6 - IDE-Specific Vulnerabilities",
@@ -73,19 +144,30 @@ const riskLevelColors = {
   critical: "bg-red-500/10 text-red-400 border-red-500/30",
 }
 
-// Generic Video Demo Component for datasets 1-4
-function VideoDemo({ datasetId, info }: { 
+// Video Demo Component with Steps (for datasets 1-5)
+function VideoWithStepsDemo({ datasetId, info }: { 
   datasetId: string; 
   info: typeof datasetInfo[keyof typeof datasetInfo] 
 }) {
   const [isPlaying, setIsPlaying] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
 
-  if (!info.videoPath) return null
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
+
+  if (!info.videoPath || !info.steps) return null
+
+  const steps = info.steps
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       {/* Hero Section */}
-      <div className="text-center mb-8">
+      <div className={cn(
+        "text-center mb-10 opacity-0",
+        isVisible && "animate-fade-in-up"
+      )}>
         <div className="inline-flex items-center gap-2 mb-4">
           <Badge className={cn("font-mono", info.riskLevel && riskLevelColors[info.riskLevel])}>
             {info.riskLevel?.toUpperCase()}
@@ -100,197 +182,199 @@ function VideoDemo({ datasetId, info }: {
         </p>
       </div>
 
-      {/* Video Player */}
-      <div className="mb-8">
-        <div className="relative rounded-xl overflow-hidden border border-border bg-black/40 shadow-2xl">
-          <video
-            className="w-full aspect-video"
-            controls
-            preload="metadata"
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-          >
-            <source 
-              src={info.videoPath} 
-              type="video/mp4" 
-            />
-            Your browser does not support the video tag.
-          </video>
-          
-          {/* Play overlay when paused */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-              <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center">
-                <div className="w-0 h-0 border-l-8 border-l-white border-y-6 border-y-transparent ml-1"></div>
+      {/* Main Content: Video Left, Steps Right */}
+      <div className={cn(
+        "grid lg:grid-cols-2 gap-6 mb-12 opacity-0",
+        isVisible && "animate-fade-in-up stagger-2"
+      )}>
+        {/* Video Player - Left Side */}
+        <div>
+          <div className="relative rounded-xl overflow-hidden border border-border shadow-2xl bg-black">
+            <video
+              className="w-full h-auto"
+              style={{ aspectRatio: '990/850' }}
+              controls
+              preload="metadata"
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+            >
+              <source 
+                src={info.videoPath} 
+                type="video/mp4" 
+              />
+              Your browser does not support the video tag.
+            </video>
+            
+            {/* Play overlay when paused */}
+            {!isPlaying && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
+                <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
+                  <Play className="h-6 w-6 text-white ml-1" fill="white" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Steps - Right Side */}
+        <div>
+          <div className="h-full rounded-xl border border-border bg-card/40 glass p-6 flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-mono text-sm uppercase tracking-wider text-primary flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+                Attack Flow
+              </h3>
+              <Badge className={cn("font-mono text-xs", info.riskLevel && riskLevelColors[info.riskLevel])}>
+                {info.riskLevel?.toUpperCase()}
+              </Badge>
+            </div>
+
+            {/* Progress Indicator */}
+            <div className="mb-6">
+              <div className="flex items-center justify-between mb-2">
+                {steps.map((_, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      "flex-1 h-1.5 rounded-full mx-0.5 transition-all duration-300",
+                      index <= currentStep ? "bg-primary" : "bg-secondary/50"
+                    )}
+                  />
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                Step {currentStep + 1} of {steps.length}
+              </p>
+            </div>
+            
+            {/* Current Step Display */}
+            <div className="flex-1 space-y-4">
+              {steps.map((step, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "rounded-lg border transition-all duration-500 cursor-pointer overflow-hidden",
+                    currentStep === index 
+                      ? "border-primary bg-primary/5 shadow-lg shadow-primary/10" 
+                      : "border-border/50 bg-secondary/20 hover:border-border hover:bg-secondary/30",
+                    "opacity-0 animate-fade-in"
+                  )}
+                  style={{ animationDelay: `${index * 150 + 300}ms` }}
+                  onClick={() => setCurrentStep(index)}
+                >
+                  <div className="p-4">
+                    {/* Step Header */}
+                    <div className="flex items-start gap-3">
+                      <div className={cn(
+                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-mono font-bold shrink-0 transition-all duration-300",
+                        currentStep === index 
+                          ? "bg-primary text-primary-foreground shadow-md" 
+                          : currentStep > index
+                            ? "bg-primary/20 text-primary"
+                            : "bg-secondary text-muted-foreground"
+                      )}>
+                        {currentStep > index ? (
+                          <CheckCircle2 className="h-4 w-4" />
+                        ) : (
+                          index + 1
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className={cn(
+                          "font-semibold text-base mb-1 transition-colors leading-tight",
+                          currentStep === index ? "text-primary" : "text-foreground"
+                        )}>
+                          {step.title}
+                        </h4>
+                        <p className={cn(
+                          "text-sm text-muted-foreground leading-relaxed transition-all duration-300",
+                          currentStep === index ? "opacity-100" : "opacity-70 line-clamp-2"
+                        )}>
+                          {step.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Step Navigation */}
+            <div className="mt-6 pt-4 border-t border-border/50">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                  disabled={currentStep === 0}
+                  className={cn(
+                    "flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all",
+                    currentStep === 0 
+                      ? "text-muted-foreground/40 bg-secondary/30 cursor-not-allowed"
+                      : "text-foreground bg-secondary hover:bg-secondary/80"
+                  )}
+                >
+                  ← Previous
+                </button>
+                <button
+                  onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
+                  disabled={currentStep === steps.length - 1}
+                  className={cn(
+                    "flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all",
+                    currentStep === steps.length - 1 
+                      ? "text-muted-foreground/40 bg-secondary/30 cursor-not-allowed"
+                      : "text-primary-foreground bg-primary hover:bg-primary/90"
+                  )}
+                >
+                  {currentStep === steps.length - 1 ? "Completed ✓" : "Next Step →"}
+                </button>
               </div>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Description Card */}
-      <div className="mb-8 p-6 rounded-xl border border-border bg-card/40 glass">
-        <h3 className="font-semibold text-lg mb-3">Attack Overview</h3>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          This demonstration showcases real-world attack scenarios in the {info.category} category. 
-          The video illustrates how coding agents can be exploited through carefully crafted prompts 
-          and malicious instructions, highlighting the importance of security measures in AI-assisted development.
-        </p>
-        <div className="grid md:grid-cols-2 gap-4 mt-4">
-          <div className="p-4 rounded-lg bg-secondary/40 border border-border/40">
-            <div className={cn("text-xs font-mono uppercase tracking-wider mb-2", 
-              info.riskLevel === "critical" ? "text-red-400" : 
-              info.riskLevel === "high" ? "text-orange-400" : 
-              info.riskLevel === "medium" ? "text-yellow-400" : "text-emerald-400"
-            )}>
-              Attack Vector
-            </div>
-            <p className="text-sm text-muted-foreground">
-              {info.attackType}
-            </p>
-          </div>
-          <div className="p-4 rounded-lg bg-secondary/40 border border-border/40">
-            <div className={cn("text-xs font-mono uppercase tracking-wider mb-2",
-              info.riskLevel === "critical" ? "text-red-400" : 
-              info.riskLevel === "high" ? "text-orange-400" : 
-              info.riskLevel === "medium" ? "text-yellow-400" : "text-emerald-400"
-            )}>
-              Risk Level
-            </div>
-            <p className="text-sm text-muted-foreground">
-              {info.riskLevel?.charAt(0).toUpperCase() + info.riskLevel?.slice(1)} severity security threat
-            </p>
           </div>
         </div>
       </div>
 
-      {/* Key Points */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="p-6 rounded-xl border border-border bg-card/40">
-          <div className="text-2xl font-bold text-primary mb-2">01</div>
-          <h4 className="font-semibold mb-2">Vulnerability Identification</h4>
-          <p className="text-sm text-muted-foreground">
-            Understanding the security weakness in AI agent systems
-          </p>
-        </div>
-        <div className="p-6 rounded-xl border border-border bg-card/40">
-          <div className="text-2xl font-bold text-primary mb-2">02</div>
-          <h4 className="font-semibold mb-2">Attack Execution</h4>
-          <p className="text-sm text-muted-foreground">
-            Step-by-step demonstration of the exploitation process
-          </p>
-        </div>
-        <div className="p-6 rounded-xl border border-border bg-card/40">
-          <div className="text-2xl font-bold text-primary mb-2">03</div>
-          <h4 className="font-semibold mb-2">Impact Assessment</h4>
-          <p className="text-sm text-muted-foreground">
-            Analyzing the potential damage and security implications
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// Context Pollution Demo Component
-function ContextPollutionDemo({ info }: { info: typeof datasetInfo[keyof typeof datasetInfo] }) {
-  const [isPlaying, setIsPlaying] = useState(false)
-
-  return (
-    <div className="max-w-5xl mx-auto">
-      {/* Hero Section */}
-      <div className="text-center mb-8">
-        <div className="inline-flex items-center gap-2 mb-4">
-          <Badge className="bg-orange-500/10 text-orange-400 border-orange-500/30 font-mono">
-            HIGH
-          </Badge>
-          <span className="text-sm text-muted-foreground">Malicious Instruction Persistence</span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-3">
-          Context Pollution Attack
-        </h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Demonstration of malicious prompt injection through context pollution
-        </p>
-      </div>
-
-      {/* Video Player */}
-      <div className="mb-8">
-        <div className="relative rounded-xl overflow-hidden border border-border bg-black/40 shadow-2xl">
-          <video
-            className="w-full aspect-video"
-            controls
-            preload="metadata"
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-          >
-            <source 
-              src={info.videoPath || "/demo-video/5-Context_Pollution(malicious_instruction_persistence.mp4"} 
-              type="video/mp4" 
-            />
-            Your browser does not support the video tag.
-          </video>
-          
-          {/* Play overlay when paused */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-              <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center">
-                <div className="w-0 h-0 border-l-8 border-l-white border-y-6 border-y-transparent ml-1"></div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Description */}
-      <div className="mb-8 p-6 rounded-xl border border-border bg-card/40 glass">
-        <h3 className="font-semibold text-lg mb-3">Attack Overview</h3>
-        <p className="text-muted-foreground leading-relaxed mb-4">
-          This demonstration shows how malicious instructions can be injected and persisted 
-          in the AI agent's context through carefully crafted prompts. The attacker exploits 
-          the context window to maintain malicious instructions across multiple interactions.
-        </p>
-        <div className="grid md:grid-cols-2 gap-4 mt-4">
-          <div className="p-4 rounded-lg bg-secondary/40 border border-border/40">
-            <div className="text-xs font-mono uppercase tracking-wider text-orange-400 mb-2">
-              Attack Vector
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Context injection through hidden prompts
-            </p>
+      {/* Attack Info Cards */}
+      <div className={cn(
+        "grid md:grid-cols-3 gap-4 opacity-0",
+        isVisible && "animate-fade-in-up stagger-4"
+      )}>
+        <div className="p-6 rounded-xl border border-border bg-card/40 text-center">
+          <div className={cn(
+            "text-xs font-mono uppercase tracking-wider mb-2",
+            info.riskLevel === "critical" ? "text-red-400" : 
+            info.riskLevel === "high" ? "text-orange-400" : 
+            info.riskLevel === "medium" ? "text-yellow-400" : "text-emerald-400"
+          )}>
+            Attack Vector
           </div>
-          <div className="p-4 rounded-lg bg-secondary/40 border border-border/40">
-            <div className="text-xs font-mono uppercase tracking-wider text-orange-400 mb-2">
-              Impact
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Persistent malicious behavior in AI responses
-            </p>
+          <p className="text-sm text-muted-foreground">
+            {info.attackType}
+          </p>
+        </div>
+        <div className="p-6 rounded-xl border border-border bg-card/40 text-center">
+          <div className={cn(
+            "text-xs font-mono uppercase tracking-wider mb-2",
+            info.riskLevel === "critical" ? "text-red-400" : 
+            info.riskLevel === "high" ? "text-orange-400" : 
+            info.riskLevel === "medium" ? "text-yellow-400" : "text-emerald-400"
+          )}>
+            Risk Level
           </div>
-        </div>
-      </div>
-
-      {/* Key Points */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="p-6 rounded-xl border border-border bg-card/40">
-          <div className="text-2xl font-bold text-primary mb-2">01</div>
-          <h4 className="font-semibold mb-2">Context Injection</h4>
           <p className="text-sm text-muted-foreground">
-            Malicious instructions are injected into the context window
+            {info.riskLevel?.charAt(0).toUpperCase()}{info.riskLevel?.slice(1)} Severity
           </p>
         </div>
-        <div className="p-6 rounded-xl border border-border bg-card/40">
-          <div className="text-2xl font-bold text-primary mb-2">02</div>
-          <h4 className="font-semibold mb-2">Instruction Persistence</h4>
-          <p className="text-sm text-muted-foreground">
-            Instructions remain active across multiple interactions
-          </p>
-        </div>
-        <div className="p-6 rounded-xl border border-border bg-card/40">
-          <div className="text-2xl font-bold text-primary mb-2">03</div>
-          <h4 className="font-semibold mb-2">Behavior Manipulation</h4>
-          <p className="text-sm text-muted-foreground">
-            AI agent behavior is altered without user awareness
+        <div className="p-6 rounded-xl border border-border bg-card/40 text-center">
+          <div className={cn(
+            "text-xs font-mono uppercase tracking-wider mb-2",
+            info.riskLevel === "critical" ? "text-red-400" : 
+            info.riskLevel === "high" ? "text-orange-400" : 
+            info.riskLevel === "medium" ? "text-yellow-400" : "text-emerald-400"
+          )}>
+            Category
+          </div>
+          <p className="text-sm text-muted-foreground capitalize">
+            {info.category}
           </p>
         </div>
       </div>
@@ -302,6 +386,11 @@ function ContextPollutionDemo({ info }: { info: typeof datasetInfo[keyof typeof 
 function IDEVulnerabilityDemo({ info }: { info: typeof datasetInfo[keyof typeof datasetInfo] }) {
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   const steps = [
     {
@@ -381,9 +470,12 @@ Leaked information:
   const progress = ((currentStep + 1) / steps.length) * 100
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       {/* Hero Section */}
-      <div className="text-center mb-12">
+      <div className={cn(
+        "text-center mb-12 opacity-0",
+        isVisible && "animate-fade-in-up"
+      )}>
         <div className="inline-flex items-center gap-2 mb-4">
           <Badge className="bg-red-500/10 text-red-400 border-red-500/30 font-mono">
             CRITICAL
@@ -398,189 +490,120 @@ Leaked information:
         </p>
       </div>
 
-      {/* Video Player Section */}
-      <div className="mb-12">
-        <h3 className="font-semibold text-xl mb-4">Attack Demonstration Video</h3>
-        <div className="relative rounded-xl overflow-hidden border border-border bg-black/40 shadow-2xl">
-          <video
-            className="w-full aspect-video"
-            controls
-            preload="metadata"
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-          >
-            <source 
-              src={info.videoPath || "/demo-video/6-IDE_specific.mp4"} 
-              type="video/mp4" 
-            />
-            Your browser does not support the video tag.
-          </video>
-          
-          {/* Play overlay when paused */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-              <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center">
-                <div className="w-0 h-0 border-l-8 border-l-white border-y-6 border-y-transparent ml-1"></div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Interactive Step-by-Step Section */}
-      <div className="mb-12 p-6 rounded-xl border border-border bg-card/40">
-        <h3 className="font-semibold text-xl mb-6">Interactive Attack Flow</h3>
-        
-        {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-3">
-            {steps.map((step, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentStep(index)}
-                className={cn(
-                  "flex-1 text-center transition-colors",
-                  "first:text-left last:text-right"
-                )}
-              >
-                <div className={cn(
-                  "font-mono text-xs mb-1 transition-colors",
-                  index === currentStep 
-                    ? "text-primary font-semibold" 
-                    : index < currentStep 
-                      ? "text-muted-foreground/60"
-                      : "text-muted-foreground/40"
-                )}>
-                  {step.label}
-                </div>
-              </button>
-            ))}
-          </div>
-          <div className="h-1 bg-secondary/30 rounded-full overflow-hidden">
-            <div 
-              className="h-full bg-gradient-to-r from-emerald-500 via-yellow-500 to-red-500 transition-all duration-500"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Main Content - Alternating Layout with Fixed Height */}
-        <div className="mb-8 min-h-[380px]">
-          <div className={cn(
-            "grid lg:grid-cols-2 gap-8 lg:gap-12 items-center",
-            "transition-all duration-700 ease-out"
-          )}>
-            {/* 奇数步：代码在左，说明在右 */}
-            {/* 偶数步：说明在左，代码在右 */}
+      {/* Video + Steps Layout */}
+      <div className={cn(
+        "grid lg:grid-cols-2 gap-6 mb-12 opacity-0",
+        isVisible && "animate-fade-in-up stagger-2"
+      )}>
+        {/* Video Player - Left Side */}
+        <div>
+          <div className="relative rounded-xl overflow-hidden border border-border shadow-2xl bg-black">
+            <video
+              className="w-full h-auto"
+              style={{ aspectRatio: '990/850' }}
+              controls
+              preload="metadata"
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+            >
+              <source 
+                src={info.videoPath || "/demo-video/6-IDE_specific.mp4"} 
+                type="video/mp4" 
+              />
+              Your browser does not support the video tag.
+            </video>
             
-            {currentStep % 2 === 0 ? (
-              <>
-                {/* 代码块 - 左侧 */}
-                <div 
-                  key={`code-${currentStep}`}
-                  className="order-1 animate-slide-in-left"
-                >
-                  <div className="rounded-xl bg-gradient-to-br from-black/80 to-black/60 border border-border/30 p-6 lg:p-8 shadow-2xl backdrop-blur">
-                    <pre className="text-gray-300 leading-relaxed font-mono text-sm lg:text-base overflow-x-auto">
-                      {steps[currentStep].code}
-                    </pre>
-                  </div>
+            {!isPlaying && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
+                <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30">
+                  <Play className="h-6 w-6 text-white ml-1" fill="white" />
                 </div>
-
-                {/* 说明文字 - 右侧 */}
-                <div 
-                  key={`text-${currentStep}`}
-                  className="order-2 animate-slide-in-right"
-                >
-                  <div className="space-y-4">
-                    <div className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                      <span className="font-mono text-xs text-primary">
-                        Step {currentStep + 1}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl lg:text-3xl font-bold leading-tight">
-                      {steps[currentStep].title}
-                    </h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                      {steps[currentStep].description}
-                    </p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                {/* 说明文字 - 左侧 */}
-                <div 
-                  key={`text-${currentStep}`}
-                  className="order-1 animate-slide-in-left"
-                >
-                  <div className="space-y-4">
-                    <div className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-                      <span className="font-mono text-xs text-primary">
-                        Step {currentStep + 1}
-                      </span>
-                    </div>
-                    <h3 className="text-2xl lg:text-3xl font-bold leading-tight">
-                      {steps[currentStep].title}
-                    </h3>
-                    <p className="text-muted-foreground text-lg leading-relaxed">
-                      {steps[currentStep].description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* 代码块 - 右侧 */}
-                <div 
-                  key={`code-${currentStep}`}
-                  className="order-2 animate-slide-in-right"
-                >
-                  <div className="rounded-xl bg-gradient-to-br from-black/80 to-black/60 border border-border/30 p-6 lg:p-8 shadow-2xl backdrop-blur">
-                    <pre className="text-gray-300 leading-relaxed font-mono text-sm lg:text-base overflow-x-auto">
-                      {steps[currentStep].code}
-                    </pre>
-                  </div>
-                </div>
-              </>
+              </div>
             )}
           </div>
         </div>
 
-        {/* Navigation - Fixed Position */}
-        <div className="flex items-center justify-center pt-4">
-          {currentStep < steps.length - 1 ? (
-            <button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className={cn(
-                "relative inline-flex items-center justify-center",
-                "px-8 py-4 rounded-xl",
-                "bg-primary/10 hover:bg-primary/20",
-                "border border-primary/30 hover:border-primary/50",
-                "transition-all duration-300",
-                "hover:shadow-lg hover:shadow-primary/20",
-                "active:scale-[0.98]",
-                "h-14"
-              )}
-            >
-              <span className="font-semibold">Next Step</span>
-            </button>
-          ) : (
-            <div className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 h-14">
-              <span className="font-semibold text-emerald-400">Demo Completed</span>
-              <span className="text-muted-foreground">•</span>
-              <button
-                onClick={() => setCurrentStep(0)}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors underline-offset-4 hover:underline"
-              >
-                Restart
-              </button>
+        {/* Code Preview - Right Side */}
+        <div>
+          <div className="h-full rounded-xl border border-border bg-card/40 glass overflow-hidden flex flex-col">
+            {/* Step Labels */}
+            <div className="flex items-center gap-1 p-3 border-b border-border/50 bg-secondary/30 overflow-x-auto">
+              {steps.map((step, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentStep(index)}
+                  className={cn(
+                    "px-2 py-1 rounded text-[10px] font-mono whitespace-nowrap transition-all",
+                    index === currentStep 
+                      ? "bg-primary text-primary-foreground" 
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  )}
+                >
+                  {index + 1}
+                </button>
+              ))}
             </div>
-          )}
+
+            {/* Code Content */}
+            <div className="flex-1 p-4 overflow-hidden">
+              <div className="mb-3">
+                <span className="font-mono text-xs text-primary">Step {currentStep + 1}</span>
+                <h4 className="font-semibold text-sm mt-1">{steps[currentStep].title}</h4>
+              </div>
+              <div className="rounded-lg bg-black/60 p-4 mb-3 overflow-auto max-h-48">
+                <pre className="text-gray-300 leading-relaxed font-mono text-xs">
+                  {steps[currentStep].code}
+                </pre>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {steps[currentStep].description}
+              </p>
+            </div>
+
+            {/* Progress */}
+            <div className="p-3 border-t border-border/50">
+              <div className="h-1 bg-secondary/30 rounded-full overflow-hidden mb-2">
+                <div 
+                  className="h-full bg-gradient-to-r from-emerald-500 via-yellow-500 to-red-500 transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                  disabled={currentStep === 0}
+                  className={cn(
+                    "text-xs font-mono transition-all",
+                    currentStep === 0 ? "text-muted-foreground/40" : "text-muted-foreground hover:text-primary"
+                  )}
+                >
+                  ← Prev
+                </button>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {currentStep + 1}/{steps.length}
+                </span>
+                <button
+                  onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
+                  disabled={currentStep === steps.length - 1}
+                  className={cn(
+                    "text-xs font-mono transition-all",
+                    currentStep === steps.length - 1 ? "text-muted-foreground/40" : "text-muted-foreground hover:text-primary"
+                  )}
+                >
+                  Next →
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Analysis Cards */}
-      <div className="grid md:grid-cols-3 gap-4">
-        <div className="text-center p-6">
+      <div className={cn(
+        "grid md:grid-cols-3 gap-4 opacity-0",
+        isVisible && "animate-fade-in-up stagger-4"
+      )}>
+        <div className="text-center p-6 rounded-xl border border-border bg-card/40">
           <div className="text-xs font-mono uppercase tracking-wider text-red-400 mb-2">
             Attack Entry
           </div>
@@ -588,7 +611,7 @@ Leaked information:
             Malicious Prompt Injection
           </p>
         </div>
-        <div className="text-center p-6">
+        <div className="text-center p-6 rounded-xl border border-border bg-card/40">
           <div className="text-xs font-mono uppercase tracking-wider text-orange-400 mb-2">
             Capability Amplification
           </div>
@@ -596,7 +619,7 @@ Leaked information:
             IDE Default Configuration
           </p>
         </div>
-        <div className="text-center p-6">
+        <div className="text-center p-6 rounded-xl border border-border bg-card/40">
           <div className="text-xs font-mono uppercase tracking-wider text-yellow-400 mb-2">
             Final Risk
           </div>
@@ -615,7 +638,7 @@ export function DemoPageContent({ datasetId }: { datasetId: string }) {
 
   return (
     <section className="px-4 sm:px-6 py-12 sm:py-20 min-h-screen">
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-12">
           <button
@@ -640,10 +663,8 @@ export function DemoPageContent({ datasetId }: { datasetId: string }) {
         {/* Demo Content - 根据datasetId渲染不同的demo组件 */}
         {datasetId === "6" ? (
           <IDEVulnerabilityDemo info={info} />
-        ) : datasetId === "5" ? (
-          <ContextPollutionDemo info={info} />
-        ) : info.videoPath ? (
-          <VideoDemo datasetId={datasetId} info={info} />
+        ) : info.videoPath && info.steps ? (
+          <VideoWithStepsDemo datasetId={datasetId} info={info} />
         ) : (
           <div className="text-center py-20">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/20 mb-4">
