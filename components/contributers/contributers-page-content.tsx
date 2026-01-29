@@ -250,12 +250,6 @@ export function ContributersPageContent() {
 
         {/* Join Us CTA */}
         <div className={cn("mt-16 rounded-xl border border-dashed border-border/50 bg-secondary/20 p-8 text-center opacity-0", isVisible && "animate-fade-in-up stagger-6")}>
-          <p className="font-mono text-sm text-muted-foreground">
-            Interested in contributing?{" "}
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-              Join us on GitHub
-            </a>
-          </p>
         </div>
       </div>
     </section>
