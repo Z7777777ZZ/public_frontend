@@ -25,8 +25,8 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://eindev.ir"),
   title: {
-    default: "AgentSphere",
-    template: "%s | AgentSphere",
+    default: "CodingSphere",
+    template: "%s | CodingSphere",
   },
   description:
     "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Ehsan Ghaffar.",
@@ -49,22 +49,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "AgentSphere — Ehsan Ghaffar's Digital Laboratory",
+    title: "CodingSphere — Ehsan Ghaffar's Digital Laboratory",
     description:
       "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Ehsan Ghaffar.",
-    siteName: "AgentSphere",
+    siteName: "CodingSphere",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "AgentSphere — Ehsan Ghaffar's Digital Laboratory",
+        alt: "CodingSphere — Ehsan Ghaffar's Digital Laboratory",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AgentSphere — Ehsan Ghaffar's Digital Laboratory",
+    title: "CodingSphere — Ehsan Ghaffar's Digital Laboratory",
     description: "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts.",
     creator: "@ehsanghaffar",
     images: ["/og-image.png"],

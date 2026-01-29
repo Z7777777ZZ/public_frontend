@@ -14,7 +14,7 @@ const navItems = [
   { label: "Datasets", href: "/datasets" },
   { label: "Rank", href: "/rank" },
   { label: "Tests", href: "/tests" },
-  { label: "Contributers", href: "/contributers" },
+  { label: "Contributors", href: "/contributers" },
 ]
 
 export function Header() {
@@ -49,13 +49,13 @@ export function Header() {
             <div className="relative h-10 w-10">
               <NextImage
                 src="/home-logo/home_logo.png"
-                alt="AgentSphere Logo"
+                alt="CodingSphere Logo"
                 fill
                 className="object-contain"
               />
             </div>
             <span className="font-mono text-sm tracking-tight">
-              Agent
+              Coding
               <span className="bg-gradient-to-l from-primary/50 to-accent bg-clip-text text-transparent font-semibold">
                 Sphere
               </span>

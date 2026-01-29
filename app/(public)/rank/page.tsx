@@ -4,11 +4,11 @@ import type { Metadata } from "next";
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
 
 export const metadata: Metadata = {
-  title: "AgentSphere",
+  title: "CodingSphere",
   description: "Active experiments, prototypes, and work in progress. A peek into the digital workshop where ideas take shape.",
   keywords: ["experiments", "prototypes", "work in progress", "playground", "dev tools"],
   openGraph: {
-    title: "AgentSphere",
+    title: "CodingSphere",
     description: "Active experiments, prototypes, and work in progress.",
     url: `${baseUrl}/workbench`,
     type: "website",
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
         url: `${baseUrl}/og-image-workbench.png`,
         width: 1200,
         height: 630,
-        alt: "AgentSphere Workbench",
+        alt: "CodingSphere Workbench",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AgentSphere",
+    title: "CodingSphere",
     description: "Active experiments, prototypes, and work in progress.",
     images: [`${baseUrl}/og-image-workbench.png`],
   },

@@ -5,7 +5,7 @@ export default function IntroductionPage() {
         <div className="space-y-6 sm:space-y-8">
           <div className="space-y-2">
             <p className="font-mono text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-muted-foreground">
-              Welcome to AgentSphere
+              Welcome to CodingSphere
             </p>
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance">
               Where Code Meets{" "}
@@ -16,7 +16,7 @@ export default function IntroductionPage() {
           </div>
 
           <p className="text-base sm:text-lg leading-relaxed text-muted-foreground max-w-3xl">
-            AgentSphere is a digital workshop and portfolio platform designed for developers who
+            CodingSphere is a digital workshop and portfolio platform designed for developers who
             believe in building in public. It&apos;s a space where ideas take shape, experiments
             unfold, and open-source projects come to life.
           </p>

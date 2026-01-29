@@ -550,7 +550,7 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>AgentSphere Blog</title>
+    <title>CodingSphere Blog</title>
     <link>https://eindev.ir/blog</link>
     <description>Code, experiments, and digital artifacts</description>
     ${blogPosts

@@ -1,7 +1,7 @@
 import { DatasetDetailContent } from "@/components/datasets/dataset-detail-content";
 
 export const metadata = {
-  title: "AgentSphere",
+  title: "CodingSphere",
 };
 
 export default async function DatasetDetailPage({ params }: { params: Promise<{ id: string }> }) {

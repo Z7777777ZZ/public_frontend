@@ -9,9 +9,9 @@ export function Footer() {
   return (
     <footer id="connect" className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 sm:gap-16 lg:grid-cols-2">
-          {/* Left column */}
-          <div className="space-y-6 sm:space-y-8 animate-fade-in-up">
+        <div className="flex justify-center">
+          {/* Center column */}
+          <div className="space-y-6 sm:space-y-8 animate-fade-in-up max-w-2xl text-center">
             <div className="space-y-3">
               <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Connect</p>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-balance">
@@ -19,22 +19,23 @@ export function Footer() {
                 <span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text ">together</span>
               </h2>
             </div>
-            <p className="max-w-md text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <p className="max-w-md mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed">
                 If you want to contribute to the security evaluation of coding agents, provide datasets, or test your own agents, please feel free to contact us
             </p>
 
-            <div className="pt-2">
-              <button
-                className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-primary bg-primary/10 px-8 py-4 sm:py-4 font-mono text-sm text-primary transition-all duration-500 hover:text-primary-foreground active:scale-[0.98] w-full sm:w-auto cursor-pointer"
+            <div className="pt-2 flex justify-center">
+              <a
+                href="mailto:zsjcs@zju.edu.cn"
+                className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-primary bg-primary/10 px-8 py-4 sm:py-4 font-mono text-sm text-primary transition-all duration-500 hover:text-primary-foreground active:scale-[0.98] cursor-pointer"
               >
                 <span className="relative z-10">Contact Us</span>
                 <span className="absolute inset-0 -translate-x-full bg-primary transition-transform duration-500 group-hover:translate-x-0" />
-              </button>
+              </a>
             </div>
           </div>
 
-          {/* Right column - Links */}
-          <div className="space-y-6 lg:text-right animate-fade-in-up stagger-2">
+          {/* Right column - Links (Hidden) */}
+          {/* <div className="space-y-6 lg:text-right animate-fade-in-up stagger-2">
             <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-muted-foreground">
               Find me elsewhere
             </p>
@@ -58,7 +59,7 @@ export function Footer() {
                 </a>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

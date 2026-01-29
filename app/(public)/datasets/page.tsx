@@ -1,7 +1,7 @@
 import { NotesPageContent } from "@/components/notes/notes-page-content";
 
 export const metadata = {
-  title: "AgentSphere",
+  title: "CodingSphere",
   description: "Technical findings, observations, and thoughts from the workbench.",
 };
 

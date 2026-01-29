@@ -13,7 +13,7 @@
 \`\`\`bash
 git add .
 git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/AgentSphere.git
+git remote add origin https://github.com/yourusername/CodingSphere.git
 git push -u origin main
 \`\`\`
 
@@ -150,10 +150,10 @@ const nextConfig = {
 3. **Build and run**:
 \`\`\`bash
 # Build image
-docker build -t AgentSphere .
+docker build -t CodingSphere .
 
 # Run container
-docker run -p 3000:3000 AgentSphere
+docker run -p 3000:3000 CodingSphere
 \`\`\`
 
 ### VPS Deployment (DigitalOcean, AWS, etc.)
@@ -185,8 +185,8 @@ pnpm --version
 2. **Clone repository**:
 \`\`\`bash
 cd /var/www
-sudo git clone https://github.com/yourusername/AgentSphere.git
-cd AgentSphere
+sudo git clone https://github.com/yourusername/CodingSphere.git
+cd CodingSphere
 \`\`\`
 
 3. **Install dependencies & build**:
@@ -201,7 +201,7 @@ pnpm build
 sudo npm install -g pm2
 
 # Start app
-pm2 start pnpm --name "AgentSphere" -- start
+pm2 start pnpm --name "CodingSphere" -- start
 
 # Save PM2 config
 pm2 save
@@ -216,7 +216,7 @@ pm2 startup
 sudo apt install nginx
 
 # Create config
-sudo nano /etc/nginx/sites-available/AgentSphere
+sudo nano /etc/nginx/sites-available/CodingSphere
 \`\`\`
 
 \`\`\`nginx
@@ -237,7 +237,7 @@ server {
 
 \`\`\`bash
 # Enable site
-sudo ln -s /etc/nginx/sites-available/AgentSphere /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/CodingSphere /etc/nginx/sites-enabled/
 
 # Test config
 sudo nginx -t
@@ -262,7 +262,7 @@ sudo certbot renew --dry-run
 
 \`\`\`bash
 # SSH into server
-cd /var/www/AgentSphere
+cd /var/www/CodingSphere
 
 # Pull latest
 git pull origin main
@@ -272,7 +272,7 @@ pnpm install
 pnpm build
 
 # Restart
-pm2 restart AgentSphere
+pm2 restart CodingSphere
 \`\`\`
 
 ## Static Export (Not Recommended)
@@ -359,13 +359,13 @@ Remove `unoptimized: true` from config
 ### 2. Add Caching Headers (Nginx)
 \`\`\`nginx
 location /_next/static {
-    alias /var/www/AgentSphere/.next/static;
+    alias /var/www/CodingSphere/.next/static;
     expires 365d;
     add_header Cache-Control "public, immutable";
 }
 
 location /static {
-    alias /var/www/AgentSphere/public;
+    alias /var/www/CodingSphere/public;
     expires 365d;
     add_header Cache-Control "public, immutable";
 }
@@ -421,7 +421,7 @@ Click "Rollback" on previous deployment in Vercel dashboard
 pm2 list
 
 # SSH into server
-cd /var/www/AgentSphere
+cd /var/www/CodingSphere
 
 # Checkout previous commit
 git log --oneline  # Find commit hash
@@ -430,7 +430,7 @@ git checkout <commit-hash>
 # Rebuild and restart
 pnpm install
 pnpm build
-pm2 restart AgentSphere
+pm2 restart CodingSphere
 \`\`\`
 
 ## Backup Strategy
@@ -438,7 +438,7 @@ pm2 restart AgentSphere
 ### Database (when added)
 \`\`\`bash
 # Automated daily backups
-0 2 * * * /usr/bin/pg_dump AgentSphere > /backups/AgentSphere-$(date +\%Y\%m\%d).sql
+0 2 * * * /usr/bin/pg_dump CodingSphere > /backups/CodingSphere-$(date +\%Y\%m\%d).sql
 \`\`\`
 
 ### Code
@@ -447,7 +447,7 @@ Always in Git - no additional backup needed
 ### Static Assets
 \`\`\`bash
 # rsync to backup server
-rsync -avz /var/www/AgentSphere/public/ backup-server:/backups/AgentSphere-public/
+rsync -avz /var/www/CodingSphere/public/ backup-server:/backups/CodingSphere-public/
 \`\`\`
 
 ## Troubleshooting Deployment
@@ -467,7 +467,7 @@ pnpm build
 ### 500 Error in Production
 \`\`\`bash
 # Check PM2 logs
-pm2 logs AgentSphere
+pm2 logs CodingSphere
 
 # Check Nginx logs
 sudo tail -f /var/log/nginx/error.log
@@ -479,12 +479,12 @@ sudo tail -f /var/log/nginx/error.log
 htop
 
 # Restart app
-pm2 restart AgentSphere
+pm2 restart CodingSphere
 
 # Clear Next.js cache
 rm -rf .next/cache
 pnpm build
-pm2 restart AgentSphere
+pm2 restart CodingSphere
 \`\`\`
 
 ---

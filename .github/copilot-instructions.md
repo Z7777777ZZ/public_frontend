@@ -1,4 +1,4 @@
-# GitHub Copilot / AI Agent Instructions — AgentSphere
+# GitHub Copilot / AI Agent Instructions — CodingSphere
 
 Quick orienting notes for AI agents working in this repository.
 

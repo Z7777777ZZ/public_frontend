@@ -14,7 +14,7 @@
 \`\`\`bash
 # Clone repository
 git clone https://github.com/ehsanghaffar/code-forge.git
-cd AgentSphere
+cd CodingSphere
 
 # Install dependencies
 pnpm install
@@ -143,7 +143,7 @@ touch app/(public)/about/page.tsx
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About | AgentSphere',
+  title: 'About | CodingSphere',
   description: 'About Ehsan Ghaffar and this digital laboratory',
 }
 

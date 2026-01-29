@@ -1,7 +1,7 @@
 import { DemoPageContent } from "@/components/datasets/demo-page-content";
 
 export const metadata = {
-  title: "Security Demo - AgentSphere",
+  title: "Security Demo - CodingSphere",
   description: "Interactive demonstration of coding agent security vulnerabilities",
 };
 

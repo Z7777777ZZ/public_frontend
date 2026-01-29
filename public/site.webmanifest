@@ -1,6 +1,6 @@
 {
-  "name": "AgentSphere — Ehsan Ghaffar's Digital Laboratory",
-  "short_name": "AgentSphere",
+  "name": "CodingSphere — Ehsan Ghaffar's Digital Laboratory",
+  "short_name": "CodingSphere",
   "description": "A digital workshop where code meets curiosity. Experiments, prototypes, and open-source artifacts by Ehsan Ghaffar.",
   "start_url": "/",
   "display": "standalone",

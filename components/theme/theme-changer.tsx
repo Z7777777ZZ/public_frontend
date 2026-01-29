@@ -9,12 +9,12 @@ import { themes, type ThemeColor } from "@/lib/themes"
 const STORAGE_KEY = "color-theme"
 
 export function ThemeChanger() {
-  const [currentTheme, setCurrentTheme] = useState<ThemeColor>("golden")
+  const [currentTheme, setCurrentTheme] = useState<ThemeColor>("cyan")
   const [isOpen, setIsOpen] = useState(false)
   const [mounted, setMounted] = useState(false)
   const { resolvedTheme, systemTheme } = useTheme()
   const themeInitialized = useRef(false)
-  const currentThemeRef = useRef<ThemeColor>("emerald")
+  const currentThemeRef = useRef<ThemeColor>("cyan")
 
   // Initialize theme from localStorage only once on mount
   useEffect(() => {
@@ -28,8 +28,8 @@ export function ThemeChanger() {
         currentThemeRef.current = savedTheme
         setCurrentTheme(savedTheme)
       } else {
-        currentThemeRef.current = "emerald"
-        setCurrentTheme("emerald")
+        currentThemeRef.current = "cyan"
+        setCurrentTheme("cyan")
       }
     }
     themeInitialized.current = true
