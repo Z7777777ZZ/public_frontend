@@ -2,58 +2,61 @@
 
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
+import { CheckCircle2, XCircle, Shield } from "lucide-react"
 import NextImage from "next/image"
+import Link from "next/link"
 
-type WipItem = {
+type AgentItem = {
   id: number
   name: string
   description: string
-  score: number
-  lastUpdated: string
+  passedCases: number
+  totalCases: number
   logo?: string
 }
 
-const wipItems: WipItem[] = [
+// 按通过的 case 数排序（从高到低）
+const agentItems: AgentItem[] = [
   {
     id: 1,
     name: "Cursor-IDE",
-    description: "Cursor IDE is a modern, full-featured IDE for the web.",
-    score: 90.00,
-    lastUpdated: "No.1",
+    description: "AI-powered code editor",
+    passedCases: 270,
+    totalCases: 300,
     logo: "/logos/cursor.png",
   },
   {
     id: 2,
     name: "Claude Code",
-    description: "Claude Code is a modern, full-featured IDE for the web.",
-    score: 88.00,
-    lastUpdated: "No.2",
-    logo: "/logos/claude_code.png"
+    description: "Anthropic's AI coding assistant",
+    passedCases: 264,
+    totalCases: 300,
+    logo: "/logos/claude_code.png",
   },
   {
     id: 3,
     name: "Github Copilot",
-    description: "Github Copilot is a modern, full-featured IDE for the web.",
-    score: 87.00,
-    lastUpdated: "No.3",
-    logo: "/logos/github_copilot.png"
+    description: "AI pair programmer",
+    passedCases: 258,
+    totalCases: 300,
+    logo: "/logos/github_copilot.png",
   },
   {
     id: 4,
     name: "Cline",
-    description: "Cline is a modern, full-featured IDE for the web.",
-    score: 75.00,
-    lastUpdated: "No.4",
+    description: "Open-source AI coding assistant",
+    passedCases: 228,
+    totalCases: 300,
   },
   {
     id: 5,
     name: "Cursor-CLI",
-    description: "Cursor CLI is a modern, full-featured IDE for the web.",
-    score: 70.00,
-    lastUpdated: "No.5",
+    description: "CLI for Cursor AI",
+    passedCases: 210,
+    totalCases: 300,
     logo: "/logos/cursor.png",
   },
-]
+].sort((a, b) => b.passedCases - a.passedCases)
 
 export function RankingList() {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
@@ -68,12 +71,19 @@ export function RankingList() {
       <div className="mx-auto max-w-4xl">
         {/* Title */}
         <div className={cn("mb-8 text-center opacity-0", isVisible && "animate-fade-in-up")}>
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2 mb-4">
+            <Shield className="h-3.5 w-3.5 text-primary" />
+            <span className="font-mono text-xs uppercase tracking-widest text-primary">Security Evaluation</span>
+          </div>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            Coding Agent Security Evaluation
+            Agent Evaluation Results
           </h2>
+          <p className="mt-3 text-sm text-muted-foreground max-w-lg mx-auto">
+            Security test results for popular coding agents
+          </p>
         </div>
 
-        {/* Ranking Terminal */}
+        {/* Evaluation Terminal */}
         <div
           className={cn(
             "rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden opacity-0",
@@ -88,29 +98,31 @@ export function RankingList() {
               <div className="h-3 w-3 rounded-full bg-primary/60 transition-colors hover:bg-primary cursor-pointer" />
             </div>
             <div className="ml-auto flex items-center gap-2 text-muted-foreground">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="font-mono text-xs">testing</span>
+              <span className="font-mono text-xs">300 test cases</span>
             </div>
           </div>
 
           <div className="divide-y divide-border/30">
-            {wipItems.map((item, index) => (
-              <div
-                key={item.id}
-                className={cn(
-                  "group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0",
-                  isVisible && "animate-fade-in",
-                  hoveredItem === item.id && "bg-secondary/30",
-                )}
-                style={{ animationDelay: `${index * 80 + 150}ms` }}
-                onMouseEnter={() => setHoveredItem(item.id)}
-                onMouseLeave={() => setHoveredItem(null)}
-              >
-                <div className="flex-1 space-y-2 min-w-0">
-                  <div className="flex items-center gap-3">
-                    {/* Logo or fallback */}
+            {agentItems.map((item, index) => {
+              const passRate = (item.passedCases / item.totalCases) * 100
+              const failedCases = item.totalCases - item.passedCases
+              
+              return (
+                <div
+                  key={item.id}
+                  className={cn(
+                    "group flex flex-col gap-3 p-4 sm:p-5 transition-all duration-300 sm:flex-row sm:items-center opacity-0",
+                    isVisible && "animate-fade-in",
+                    hoveredItem === item.id && "bg-secondary/30",
+                  )}
+                  style={{ animationDelay: `${index * 80 + 150}ms` }}
+                  onMouseEnter={() => setHoveredItem(item.id)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                >
+                  {/* Left: Logo & Name */}
+                  <div className="flex items-center gap-3 min-w-0 sm:w-40">
                     {item.logo ? (
-                      <div className="relative h-5 w-5 shrink-0">
+                      <div className="relative h-6 w-6 shrink-0">
                         <NextImage
                           src={item.logo}
                           alt={item.name}
@@ -119,41 +131,55 @@ export function RankingList() {
                         />
                       </div>
                     ) : (
-                      <div className="h-5 w-5 shrink-0 rounded bg-secondary/60 flex items-center justify-center">
+                      <div className="h-6 w-6 shrink-0 rounded bg-secondary/60 flex items-center justify-center">
                         <span className="text-[10px] font-medium text-muted-foreground">
                           {item.name.slice(0, 2).toUpperCase()}
                         </span>
                       </div>
                     )}
-                    <h4 className="font-mono text-sm font-medium tracking-tight transition-colors group-hover:text-gradient truncate">
+                    <h4 className="font-mono text-sm font-medium tracking-tight transition-colors group-hover:text-primary truncate">
                       {item.name}
                     </h4>
                   </div>
-                  <p className="pl-8 text-xs text-muted-foreground line-clamp-2 sm:line-clamp-1">
-                    {item.description}
-                  </p>
-                </div>
 
-                <div className="flex items-center justify-end gap-6 pl-6 sm:pl-0">
-                  <span
-                    className={cn(
-                      "font-mono text-sm tabular-nums transition-colors",
-                      item.score >= 80 ? "text-primary font-semibold" : "text-muted-foreground",
-                    )}
-                  >
-                    {item.score.toFixed(2)}
-                  </span>
-                  <span className="font-mono text-xs text-muted-foreground shrink-0">{item.lastUpdated}</span>
+                  {/* Center: Progress Bar */}
+                  <div className="flex-1">
+                    <div className="relative h-2 rounded-full bg-secondary/60 overflow-hidden">
+                      <div
+                        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
+                        style={{ width: `${passRate}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Right: Stats */}
+                  <div className="flex items-center gap-4 shrink-0">
+                    <div className="flex items-center gap-1">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-primary" />
+                      <span className="font-mono text-xs font-semibold text-primary">{item.passedCases}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <XCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                      <span className="font-mono text-xs text-muted-foreground">{failedCases}</span>
+                    </div>
+                    <span className={cn(
+                      "font-mono text-xs font-semibold w-10 text-right",
+                      passRate >= 80 ? "text-primary" : passRate >= 60 ? "text-yellow-500" : "text-destructive"
+                    )}>
+                      {passRate.toFixed(0)}%
+                    </span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           <div className="border-t border-border/50 bg-secondary/30 px-4 sm:px-5 py-4">
-            <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-              <span className="text-primary">❯</span>
-              <span className="typing-cursor truncate">testing...</span>
-              <span className="ml-auto text-primary/50 hidden sm:block">press enter to run</span>
+            <div className="flex items-center justify-between font-mono text-xs text-muted-foreground">
+              <span>Sorted by passed cases</span>
+              <Link href="/rank" className="text-primary hover:underline transition-colors">
+                View full results →
+              </Link>
             </div>
           </div>
         </div>

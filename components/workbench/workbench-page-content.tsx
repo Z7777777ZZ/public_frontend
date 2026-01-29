@@ -2,78 +2,66 @@
 
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import { Image, Activity, Clock } from "lucide-react"
+import { CheckCircle2, XCircle, BarChart3, Shield } from "lucide-react"
 import NextImage from "next/image"
 
-type WipItem = {
+type AgentItem = {
   id: number
   name: string
   description: string
-  score: number
-  lastUpdated: string
-  url: string
-  branch: string
-  logo?: string // Optional logo path, e.g. "/logos/cursor.svg"
+  passedCases: number
+  totalCases: number
+  logo?: string
+  version?: string
 }
 
-const wipItems: WipItem[] = [
+// 按通过的 case 数排序（从高到低）
+const agentItems: AgentItem[] = [
   {
     id: 1,
     name: "Cursor-IDE",
-    description: "Cursor IDE is a modern, full-featured IDE for the web.",
-    score: 90.00,
-    lastUpdated: "No.1",
-    url: "",
-    branch: "v14.9.1",
+    description: "AI-powered code editor with intelligent code completion and generation",
+    passedCases: 270,
+    totalCases: 300,
     logo: "/logos/cursor.png",
+    version: "v0.45",
   },
   {
     id: 2,
     name: "Claude Code",
-    description: "Claude Code is a modern, full-featured IDE for the web.",
-    score: 88.00,
-    lastUpdated: "No.2",
-    url: "",
-    branch: "v1.41.0",
-    logo: "/logos/claude_code.png"
+    description: "Anthropic's AI coding assistant with advanced reasoning capabilities",
+    passedCases: 264,
+    totalCases: 300,
+    logo: "/logos/claude_code.png",
+    version: "v1.0",
   },
   {
     id: 3,
     name: "Github Copilot",
-    description: "Github Copilot is a modern, full-featured IDE for the web.",
-    score: 87.00,
-    lastUpdated: "No.3",
-    url: "",
-    branch: "v1.13.2",
-    logo: "/logos/github_copilot.png"
+    description: "AI pair programmer that helps you write code faster",
+    passedCases: 258,
+    totalCases: 300,
+    logo: "/logos/github_copilot.png",
+    version: "v1.0",
   },
   {
     id: 4,
     name: "Cline",
-    description: "Cline is a modern, full-featured IDE for the web.",
-    score: 75.00,
-    lastUpdated: "No.4",
-    url: "",
-    branch: "v1.11.1",
+    description: "Open-source AI coding assistant for VS Code",
+    passedCases: 228,
+    totalCases: 300,
+    version: "v3.0",
   },
   {
     id: 5,
     name: "Cursor-CLI",
-    description: "Cursor CLI is a modern, full-featured IDE for the web.",
-    score: 70.00,
-    lastUpdated: "No.5",
-    url: "",
-    branch: "v1.2.0",
+    description: "Command-line interface for Cursor AI coding capabilities",
+    passedCases: 210,
+    totalCases: 300,
     logo: "/logos/cursor.png",
+    version: "v1.0",
   },
-]
-
-const recentActivity = [
-  { type: "commit", project: "einui", message: "testing trae...", time: "2 hours ago" },
-  { type: "branch", project: "llm-practice", message: "testing codebuddy...", time: "5 hours ago" },
-  { type: "commit", project: "einbiogpt", message: "testing ...", time: "1 day ago" },
-  { type: "commit", project: "handbuilt-linux", message: "testing...", time: "2 days ago" },
-]
+].sort((a, b) => b.passedCases - a.passedCases)
 
 export function WorkbenchPageContent() {
   const [hoveredItem, setHoveredItem] = useState<number | null>(null)
@@ -83,107 +71,137 @@ export function WorkbenchPageContent() {
     setIsVisible(true)
   }, [])
 
+  const totalAgents = agentItems.length
+  const avgPassRate = (agentItems.reduce((a, b) => a + (b.passedCases / b.totalCases), 0) / totalAgents * 100).toFixed(1)
+  const totalCases = agentItems[0]?.totalCases || 0
+
   return (
     <section className="px-4 sm:px-6 py-12 sm:py-20">
       <div className="mx-auto max-w-7xl">
         {/* Hero */}
         <div className={cn("mb-12 sm:mb-16 space-y-4 opacity-0", isVisible && "animate-fade-in-up")}>
-          <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">
-            Ranking of coding agents
-          </p>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">Ranking</h1>
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2">
+            <Shield className="h-3.5 w-3.5 text-primary" />
+            <span className="font-mono text-xs uppercase tracking-widest text-primary">Security Evaluation</span>
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            Agent <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">Evaluation</span>
+          </h1>
           <p className="max-w-2xl text-base sm:text-lg text-muted-foreground leading-relaxed">
-            We evaluated various forms of Coding Agents such as CLI and IDE
+            Security evaluation results for various Coding Agents. Each agent is tested against {totalCases} security test cases.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Main Terminal */}
+          {/* Main Content */}
           <div className="lg:col-span-2">
             <div
               className={cn(
-                "rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden hover-lift opacity-0",
+                "rounded-xl border border-border bg-card/40 glass backdrop-blur-sm overflow-hidden opacity-0",
                 isVisible && "animate-scale-in stagger-2",
               )}
             >
-              {/* Terminal header */}
-              <div className="flex items-center gap-3 border-b border-border/50 bg-secondary/40 px-4 sm:px-5 py-3.5 sm:py-4">
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-destructive/60 transition-colors hover:bg-destructive cursor-pointer" />
-                  <div className="h-3 w-3 rounded-full bg-yellow-500/60 transition-colors hover:bg-yellow-500 cursor-pointer" />
-                  <div className="h-3 w-3 rounded-full bg-primary/60 transition-colors hover:bg-primary cursor-pointer" />
+              {/* Header */}
+              <div className="flex items-center justify-between border-b border-border/50 bg-secondary/40 px-5 py-4">
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="h-4 w-4 text-primary" />
+                  <span className="font-mono text-sm font-medium">Test Results</span>
                 </div>
-                <span className="ml-4 font-mono text-xs text-muted-foreground truncate"></span>
-                <div className="ml-auto flex items-center gap-2 text-muted-foreground">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                  <span className="font-mono text-xs">testing</span>
-                </div>
+                <span className="font-mono text-xs text-muted-foreground">
+                  {totalCases} test cases
+                </span>
               </div>
 
+              {/* Agent List */}
               <div className="divide-y divide-border/30">
-                {wipItems.map((item, index) => (
-                  <a
-                    key={item.id}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      "group flex flex-col gap-4 p-5 sm:p-6 transition-all duration-300 sm:flex-row sm:items-center sm:justify-between opacity-0",
-                      isVisible && "animate-fade-in",
-                      hoveredItem === item.id && "bg-secondary/30",
-                    )}
-                    style={{ animationDelay: `${index * 80 + 300}ms` }}
-                    onMouseEnter={() => setHoveredItem(item.id)}
-                    onMouseLeave={() => setHoveredItem(null)}
-                  >
-                    <div className="flex-1 space-y-2 min-w-0">
-                      <div className="flex items-center gap-3">
-                        {/* Logo or fallback */}
-                        {item.logo ? (
-                          <div className="relative h-5 w-5 shrink-0">
-                            <NextImage
-                              src={item.logo}
-                              alt={item.name}
-                              fill
-                              className="object-contain"
+                {agentItems.map((item, index) => {
+                  const passRate = (item.passedCases / item.totalCases) * 100
+                  const failedCases = item.totalCases - item.passedCases
+                  
+                  return (
+                    <div
+                      key={item.id}
+                      className={cn(
+                        "group p-5 sm:p-6 transition-all duration-300 opacity-0",
+                        isVisible && "animate-fade-in",
+                        hoveredItem === item.id && "bg-secondary/30",
+                      )}
+                      style={{ animationDelay: `${index * 80 + 300}ms` }}
+                      onMouseEnter={() => setHoveredItem(item.id)}
+                      onMouseLeave={() => setHoveredItem(null)}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                        {/* Left: Logo & Name */}
+                        <div className="flex items-center gap-3 min-w-0 sm:w-48">
+                          {item.logo ? (
+                            <div className="relative h-8 w-8 shrink-0">
+                              <NextImage
+                                src={item.logo}
+                                alt={item.name}
+                                fill
+                                className="object-contain"
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-8 w-8 shrink-0 rounded-lg bg-secondary/60 flex items-center justify-center">
+                              <span className="text-xs font-medium text-muted-foreground">
+                                {item.name.slice(0, 2).toUpperCase()}
+                              </span>
+                            </div>
+                          )}
+                          <div className="min-w-0">
+                            <h4 className="font-mono text-sm font-medium tracking-tight transition-colors group-hover:text-primary truncate">
+                              {item.name}
+                            </h4>
+                            {item.version && (
+                              <span className="font-mono text-[10px] text-muted-foreground">{item.version}</span>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Center: Progress Bar */}
+                        <div className="flex-1 space-y-2">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">{item.description}</span>
+                          </div>
+                          <div className="relative h-2 rounded-full bg-secondary/60 overflow-hidden">
+                            <div
+                              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-primary to-primary/70 transition-all duration-500"
+                              style={{ width: `${passRate}%` }}
                             />
                           </div>
-                        ) : (
-                          <div className="h-5 w-5 shrink-0 rounded bg-secondary/60 flex items-center justify-center">
-                            <span className="text-[10px] font-medium text-muted-foreground">
-                              {item.name.slice(0, 2).toUpperCase()}
+                        </div>
+
+                        {/* Right: Stats */}
+                        <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+                          <div className="flex items-center gap-1.5">
+                            <CheckCircle2 className="h-4 w-4 text-primary" />
+                            <span className="font-mono text-sm font-semibold text-primary">{item.passedCases}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <XCircle className="h-4 w-4 text-muted-foreground" />
+                            <span className="font-mono text-sm text-muted-foreground">{failedCases}</span>
+                          </div>
+                          <div className="w-16 text-right">
+                            <span className={cn(
+                              "font-mono text-sm font-semibold",
+                              passRate >= 80 ? "text-primary" : passRate >= 60 ? "text-yellow-500" : "text-destructive"
+                            )}>
+                              {passRate.toFixed(0)}%
                             </span>
                           </div>
-                        )}
-                        <h4 className="font-mono text-sm font-medium tracking-tight transition-colors group-hover:text-gradient truncate">
-                          {item.name}
-                        </h4>
+                        </div>
                       </div>
-                      <p className="pl-8 text-xs text-muted-foreground line-clamp-2 sm:line-clamp-1">
-                        {item.description}
-                      </p>
                     </div>
-
-                    <div className="flex items-center justify-end gap-6 pl-6 sm:pl-0">
-                      <span
-                        className={cn(
-                          "font-mono text-sm tabular-nums transition-colors",
-                          item.score >= 80 ? "text-primary font-semibold" : "text-muted-foreground",
-                        )}
-                      >
-                        {item.score.toFixed(2)}
-                      </span>
-                      <span className="font-mono text-xs text-muted-foreground shrink-0">{item.lastUpdated}</span>
-                    </div>
-                  </a>
-                ))}
+                  )
+                })}
               </div>
 
-              <div className="border-t border-border/50 bg-secondary/30 px-4 sm:px-5 py-4">
-                <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-                  <span className="text-primary">❯</span>
-                  <span className="typing-cursor truncate">testing...</span>
-                  <span className="ml-auto text-primary/50 hidden sm:block">press enter to run</span>
+              {/* Footer */}
+              <div className="border-t border-border/50 bg-secondary/30 px-5 py-4">
+                <div className="flex items-center justify-between font-mono text-xs text-muted-foreground">
+                  <span>Sorted by passed cases (highest first)</span>
+                  <span className="text-primary">Last updated: 2 hours ago</span>
                 </div>
               </div>
             </div>
@@ -191,58 +209,74 @@ export function WorkbenchPageContent() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Stats */}
+            {/* Summary Stats */}
             <div
               className={cn(
                 "rounded-xl border border-border bg-card/40 glass p-5 opacity-0",
                 isVisible && "animate-fade-in-up stagger-3",
               )}
             >
-              <h3 className="font-mono text-xs uppercase tracking-wider text-primary mb-4">Numbers</h3>
+              <h3 className="font-mono text-xs uppercase tracking-wider text-primary mb-4 flex items-center gap-2">
+                <BarChart3 className="h-3.5 w-3.5" />
+                Summary
+              </h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-3 rounded-lg bg-secondary/30">
-                  <p className="text-2xl font-bold text-foreground">{wipItems.length}</p>
-                  <p className="font-mono text-xs text-muted-foreground">Tested</p>
+                <div className="text-center p-4 rounded-lg bg-secondary/30">
+                  <p className="text-3xl font-bold text-foreground">{totalAgents}</p>
+                  <p className="font-mono text-xs text-muted-foreground mt-1">Agents Tested</p>
                 </div>
-                <div className="text-center p-3 rounded-lg bg-secondary/30">
-                  <p className="text-2xl font-bold text-primary">
-                    {(wipItems.reduce((a, b) => a + b.score, 0) / wipItems.length).toFixed(2)}
-                  </p>
-                  <p className="font-mono text-xs text-muted-foreground">Avg Score</p>
+                <div className="text-center p-4 rounded-lg bg-secondary/30">
+                  <p className="text-3xl font-bold text-primary">{avgPassRate}%</p>
+                  <p className="font-mono text-xs text-muted-foreground mt-1">Avg Pass Rate</p>
                 </div>
               </div>
             </div>
 
-            {/* Recent Activity */}
+            {/* Legend */}
             <div
               className={cn(
                 "rounded-xl border border-border bg-card/40 glass p-5 opacity-0",
                 isVisible && "animate-fade-in-up stagger-4",
               )}
             >
-              <h3 className="font-mono text-xs uppercase tracking-wider text-primary mb-4 flex items-center gap-2">
-                <Activity className="h-3.5 w-3.5" />
-                Recent Activity
-              </h3>
+              <h3 className="font-mono text-xs uppercase tracking-wider text-primary mb-4">Legend</h3>
               <div className="space-y-3">
-                {recentActivity.map((activity, index) => (
-                  <div key={index} className="flex items-start gap-3 text-xs">
-                    <span
-                      className={cn(
-                        "shrink-0 w-1.5 h-1.5 rounded-full mt-1.5",
-                        activity.type === "commit" ? "bg-primary" : "bg-yellow-500",
-                      )}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-foreground truncate">{activity.message}</p>
-                      <p className="text-muted-foreground flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {activity.time}
-                      </p>
-                    </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                  <span className="text-muted-foreground">Passed test cases</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm">
+                  <XCircle className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Failed test cases</span>
+                </div>
+                <div className="pt-2 border-t border-border/50 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-primary" />
+                    <span className="font-mono text-xs text-muted-foreground">≥ 80% pass rate</span>
                   </div>
-                ))}
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                    <span className="font-mono text-xs text-muted-foreground">60-79% pass rate</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-destructive" />
+                    <span className="font-mono text-xs text-muted-foreground">&lt; 60% pass rate</span>
+                  </div>
+                </div>
               </div>
+            </div>
+
+            {/* Info */}
+            <div
+              className={cn(
+                "rounded-xl border border-dashed border-border/50 bg-secondary/20 p-5 opacity-0",
+                isVisible && "animate-fade-in-up stagger-5",
+              )}
+            >
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Each agent is evaluated against our comprehensive security test suite. 
+                Results are updated regularly as new tests are added.
+              </p>
             </div>
           </div>
         </div>
