@@ -1,221 +1,170 @@
 "use client"
 
-import { cn } from "@/lib/utils"
-import { Linkedin, Mail, Globe, Users } from "lucide-react"
+import { Mail, Users, ArrowRight, Sparkles } from "lucide-react"
 import NextImage from "next/image"
 
 type Contributor = {
   id: number
   name: string
   role: string
-  bio: string
-  avatar: string // Photo path, e.g. "/contributors/john.jpg"
-  github?: string
-  linkedin?: string
-  email?: string
-  website?: string
+  avatar: string
 }
 
 const contributors: Contributor[] = [
   {
     id: 1,
     name: "Binbin Zhao",
-    role: "Contributor",
-    bio: "Research Professor",
+    role: "Research Professor",
     avatar: "/contributors/zhaobinbin.jpg",
-    github: "https://github.com",
   },
   {
     id: 2,
     name: "Fukang Zhu",
-    role: "Contributor",
-    bio: "2025 Master Student",
+    role: "2025 Master Student",
     avatar: "/contributors/zhufukang.jpg",
-    github: "https://github.com",
   },
   {
     id: 3,
     name: "Wanmeng Ding",
-    role: "Contributor",
-    bio: "2025 Phd Student",
+    role: "2025 Phd Student",
     avatar: "/contributors/dingwanmeng.jpg",
-    github: "https://github.com",
   },
   {
     id: 4,
     name: "Sijie Zhi",
-    role: "Contributor",
-    bio: "2026 Master Student",
+    role: "2026 Master Student",
     avatar: "/contributors/zhisijie.jpg",
-    github: "https://github.com",
   },
   {
     id: 5,
     name: "Jinwen Wang",
-    role: "Contributor",
-    bio: "2026 Master Student",
+    role: "2026 Master Student",
     avatar: "/contributors/wangjinwen.jpg",
-    github: "https://github.com",
   },
   {
     id: 6,
     name: "Luyi Wang",
-    role: "Contributor",
-    bio: "2026 Phd Student",
+    role: "2026 Phd Student",
     avatar: "/contributors/wangluyi.jpg",
-    github: "https://github.com",
   },
 ]
 
-const SocialLink = ({ icon: Icon, href, label }: { icon: React.ComponentType<{ className?: string }>; href?: string; label: string }) => {
-  if (!href) return null
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="flex h-8 w-8 items-center justify-center rounded-lg border border-border/50 text-muted-foreground transition-all duration-200 hover:border-primary/50 hover:text-primary hover:bg-primary/10"
-    >
-      <Icon className="h-3.5 w-3.5" />
-    </a>
-  )
-}
-
-// Contributor Card Component - 避免重复代码
-function ContributorCard({ contributor, index, isPriority = false }: { 
-  contributor: Contributor; 
-  index: number;
-  isPriority?: boolean;
-}) {
+// 紧凑的贡献者头像组件
+function ContributorAvatar({ contributor, index }: { contributor: Contributor; index: number }) {
   return (
     <div
-      className="group rounded-xl border border-border bg-card/40 glass overflow-hidden transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover-lift relative animate-slide-up-fade"
-      style={{ animationDelay: `${index * 60}ms` }}
+      className="group flex items-center gap-3 animate-slide-up-fade"
+      style={{ animationDelay: `${index * 50}ms` }}
     >
-      {/* Avatar */}
-      <div className="relative aspect-square bg-secondary/30 overflow-hidden">
+      <div className="relative h-12 w-12 rounded-full overflow-hidden ring-2 ring-border/50 transition-all duration-300 group-hover:ring-primary/50 group-hover:scale-105">
         <NextImage
           src={contributor.avatar}
           alt={contributor.name}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          priority={isPriority}
-          loading={isPriority ? undefined : "lazy"}
+          sizes="48px"
+          className="object-cover"
+          loading={index < 3 ? "eager" : "lazy"}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </div>
-
-      {/* Info */}
-      <div className="p-5 space-y-3">
-        <div>
-          <h3 className="font-semibold text-base tracking-tight transition-colors group-hover:text-gradient">
-            {contributor.name}
-          </h3>
-          <p className="font-mono text-xs text-primary uppercase tracking-wider mt-0.5">
-            {contributor.role}
-          </p>
-        </div>
-        <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-          {contributor.bio}
+      <div className="min-w-0">
+        <p className="text-sm font-medium truncate transition-colors group-hover:text-primary">
+          {contributor.name}
         </p>
-
-        {/* Social Links */}
-        <div className="flex items-center gap-2 pt-2">
-          {/* <SocialLink icon={Github} href={contributor.github} label="GitHub" /> */}
-          <SocialLink icon={Linkedin} href={contributor.linkedin} label="LinkedIn" />
-          <SocialLink icon={Mail} href={contributor.email ? `mailto:${contributor.email}` : undefined} label="Email" />
-          <SocialLink icon={Globe} href={contributor.website} label="Website" />
-        </div>
+        <p className="text-xs text-muted-foreground truncate">
+          {contributor.role}
+        </p>
       </div>
-
-      {/* Hover Border */}
-      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-gradient-to-r from-primary to-transparent transition-all duration-500 group-hover:w-full" />
     </div>
   )
 }
 
 export function ContributersPageContent() {
+  const contactEmail = "binbinz@zju.edu.cn"
+  
   return (
     <section className="px-4 sm:px-6 py-12 sm:py-20">
-      <div className="mx-auto max-w-7xl">
-        {/* Hero */}
-        <div className="mb-12 sm:mb-16 space-y-4 text-center animate-slide-up-fade">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2">
-            <Users className="h-3.5 w-3.5 text-primary" />
-            <span className="font-mono text-xs uppercase tracking-widest text-primary">Team</span>
+      <div className="mx-auto max-w-4xl">
+        
+        {/* Hero: Join Us - 主要焦点 */}
+        <div className="mb-16 animate-slide-up-fade">
+          <div className="relative rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/5 via-primary/10 to-transparent p-8 sm:p-12 overflow-hidden">
+            {/* 装饰背景 */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+            
+            <div className="relative space-y-6 text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-4 py-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="font-mono text-xs uppercase tracking-widest text-primary font-semibold">Join Us</span>
+              </div>
+              
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                Collaborate with Us
+              </h1>
+              
+              <p className="max-w-xl mx-auto text-muted-foreground leading-relaxed">
+                We're building CodingSphere to advance coding agent security evaluation. 
+                Join our research team and contribute to the future of AI safety.
+              </p>
+              
+              {/* Contact Button */}
+              <div className="pt-4">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="group inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3 text-primary-foreground font-medium transition-all duration-300 hover:bg-primary/90 hover:gap-4 hover:shadow-lg hover:shadow-primary/25"
+                >
+                  <Mail className="h-4 w-4" />
+                  <span>Contact Us</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </a>
+              </div>
+              
+              <p className="text-xs text-muted-foreground font-mono">
+                {contactEmail}
+              </p>
+            </div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">Contributors</h1>
-          <p className="max-w-2xl mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Meet the team building CodingSphere — a collaborative effort to advance coding agent evaluation.
-          </p>
         </div>
 
-        {/* Contributors Grid */}
-        <div className="space-y-6">
-          {/* First Row: Text + 2 contributors + Text */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Left Text Area */}
-            <div 
-              className="hidden lg:flex flex-col items-center justify-center animate-slide-up-fade"
-              style={{ animationDelay: "50ms" }}
-            >
-              <div className="text-center space-y-2">
-                <p className="text-5xl font-bold text-primary">
-                  {contributors.length}
-                </p>
-                <p className="font-mono text-xs text-muted-foreground uppercase tracking-wider">
-                  Team Members
-                </p>
-              </div>
+        {/* Contributors Section - 紧凑展示 */}
+        <div className="animate-slide-up-fade" style={{ animationDelay: "150ms" }}>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Users className="h-4 w-4" />
+              <span className="font-mono text-xs uppercase tracking-widest">Team</span>
             </div>
-
-            {/* First 2 Contributors - 优先加载 */}
-            {contributors.slice(0, 2).map((contributor, index) => (
-              <ContributorCard 
-                key={contributor.id} 
-                contributor={contributor} 
-                index={index + 1}
-                isPriority={true}
-              />
-            ))}
-
-            {/* Right Text Area */}
-            <div 
-              className="hidden lg:flex flex-col items-center justify-center animate-slide-up-fade"
-              style={{ animationDelay: "180ms" }}
-            >
-              <div className="text-center space-y-2 max-w-[200px]">
-                <p className="font-mono text-sm text-primary font-semibold">
-                  Join Us
-                </p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  Collaborate with us to advance agent security
-                </p>
-              </div>
-            </div>
+            <div className="flex-1 h-px bg-border/50" />
+            <span className="text-xs text-muted-foreground">
+              {contributors.length} members
+            </span>
           </div>
-
-          {/* Second Row: 4 contributors - 懒加载 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {contributors.slice(2, 6).map((contributor, index) => (
-              <ContributorCard 
+          
+          {/* Contributors Grid - 紧凑的两列/三列布局 */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {contributors.map((contributor, index) => (
+              <ContributorAvatar 
                 key={contributor.id} 
                 contributor={contributor} 
-                index={index + 4}
-                isPriority={false}
+                index={index} 
               />
             ))}
           </div>
         </div>
 
-        {/* Join Us CTA */}
+        {/* Additional Contact Info */}
         <div 
-          className="mt-16 rounded-xl border border-dashed border-border/50 bg-secondary/20 p-8 text-center animate-slide-up-fade"
-          style={{ animationDelay: "500ms" }}
+          className="mt-12 pt-8 border-t border-border/30 text-center animate-slide-up-fade"
+          style={{ animationDelay: "300ms" }}
         >
+          <p className="text-sm text-muted-foreground">
+            Interested in our research? Reach out at{" "}
+            <a 
+              href={`mailto:${contactEmail}`}
+              className="text-primary hover:underline underline-offset-4"
+            >
+              {contactEmail}
+            </a>
+          </p>
         </div>
       </div>
     </section>
