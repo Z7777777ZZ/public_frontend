@@ -24,7 +24,7 @@ const agentItems: AgentItem[] = [
     passedCases: 270,
     totalCases: 300,
     logo: "/logos/cursor.png",
-    version: "v0.45",
+    version: "in testing",
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const agentItems: AgentItem[] = [
     passedCases: 264,
     totalCases: 300,
     logo: "/logos/claude_code.png",
-    version: "v1.0",
+    version: "in testing",
   },
   {
     id: 3,
@@ -42,7 +42,7 @@ const agentItems: AgentItem[] = [
     passedCases: 258,
     totalCases: 300,
     logo: "/logos/github_copilot.png",
-    version: "v1.0",
+    version: "in testing",
   },
   {
     id: 4,
@@ -50,7 +50,7 @@ const agentItems: AgentItem[] = [
     description: "Open-source AI coding assistant for VS Code",
     passedCases: 228,
     totalCases: 300,
-    version: "v3.0",
+    version: "in testing",
   },
   {
     id: 5,
@@ -59,7 +59,7 @@ const agentItems: AgentItem[] = [
     passedCases: 210,
     totalCases: 300,
     logo: "/logos/cursor.png",
-    version: "v1.0",
+    version: "in testing",
   },
 ].sort((a, b) => b.passedCases - a.passedCases)
 

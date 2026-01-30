@@ -4,7 +4,7 @@ const nextConfig = {
   output: 'export',
   
   // 2. 部署到子路径时取消注释（部署到服务器 /codingsphere 路径时使用）
-  basePath: '/codingsphere',
+  // basePath: '/codingsphere',
   
   // 3. TypeScript 配置
   typescript: {
