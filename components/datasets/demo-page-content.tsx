@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Play, CheckCircle2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 
 // 数据集信息
 const datasetInfo: Record<string, { 
@@ -199,7 +199,7 @@ function VideoWithStepsDemo({ datasetId, info }: {
               onPause={() => setIsPlaying(false)}
             >
               <source 
-                src={info.videoPath} 
+                src={getAssetPath(info.videoPath || '')} 
                 type="video/mp4" 
               />
               Your browser does not support the video tag.
@@ -507,7 +507,7 @@ Leaked information:
               onPause={() => setIsPlaying(false)}
             >
               <source 
-                src={info.videoPath || "/demo-video/6-IDE_specific.mp4"} 
+                src={getAssetPath(info.videoPath || "/demo-video/6-IDE_specific.mp4")} 
                 type="video/mp4" 
               />
               Your browser does not support the video tag.

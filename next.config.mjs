@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
+
+// 判断是否为生产环境构建
+const isProduction = process.env.NODE_ENV === 'production'
+
 const nextConfig = {
   // 1. 开启静态导出（构建后生成 out 文件夹）
   output: 'export',
   
-  // 2. 部署到子路径时取消注释（部署到服务器 /codingsphere 路径时使用）
-  // basePath: '/codingsphere',
+  // 2. 仅在生产环境使用 basePath（开发环境直接访问 localhost:3000）
+  ...(isProduction && { basePath: '/codingsphere' }),
   
   // 3. TypeScript 配置
   typescript: {
