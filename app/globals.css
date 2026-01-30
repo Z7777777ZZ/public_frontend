@@ -5,6 +5,11 @@
 
 /* Refined color palette with softer, more sophisticated tones - Cyan theme */
 :root {
+  /* Font families - using Google Fonts CDN */
+  --font-geist: 'Geist', system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono', 'Courier New', monospace;
+  --font-space-grotesk: 'Space Grotesk', system-ui, sans-serif;
+  
   --background: oklch(0.985 0.002 260);
   --foreground: oklch(0.12 0.015 260);
   --card: oklch(1 0 0);
