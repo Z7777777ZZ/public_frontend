@@ -1,65 +1,9 @@
-import { Github, Mail } from "lucide-react"
-
-const socialLinks = [
-  { label: "GitHub", href: "", handle: "", icon: Github },
-  { label: "Email", href: "", handle: "", icon: Mail },
-]
-
 export function Footer() {
   return (
-    <footer id="connect" className="border-t border-border/30 px-4 sm:px-6 py-20 sm:py-28">
+    <footer id="connect" className="border-t border-border/30 px-4 sm:px-6 py-8">
       <div className="mx-auto max-w-7xl">
-        <div className="flex justify-center">
-          {/* Center column */}
-          <div className="space-y-6 sm:space-y-8 animate-fade-in-up max-w-2xl text-center">
-            <div className="space-y-3">
-              <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-primary">Connect</p>
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl text-balance">
-                {"Let's build something "}
-                <span className="bg-gradient-to-l from-primary/50 to-accent text-transparent bg-clip-text ">together</span>
-              </h2>
-            </div>
-            <p className="max-w-md mx-auto text-base sm:text-lg text-muted-foreground leading-relaxed">
-                If you want to contribute to the security evaluation of coding agents, provide datasets, or test your own agents, please feel free to contact us
-            </p>
-
-            <div className="pt-2 flex justify-center">
-              <a
-                href="mailto:zsjcs@zju.edu.cn"
-                className="group relative inline-flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-primary bg-primary/10 px-8 py-4 sm:py-4 font-mono text-sm text-primary transition-all duration-500 hover:text-primary-foreground active:scale-[0.98] cursor-pointer"
-              >
-                <span className="relative z-10">Contact Us</span>
-                <span className="absolute inset-0 -translate-x-full bg-primary transition-transform duration-500 group-hover:translate-x-0" />
-              </a>
-            </div>
-          </div>
-
-          {/* Right column - Links (Hidden) */}
-          {/* <div className="space-y-6 lg:text-right animate-fade-in-up stagger-2">
-            <p className="font-mono text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-muted-foreground">
-              Find me elsewhere
-            </p>
-            <div className="space-y-2">
-              {socialLinks.map((link, index) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.label !== "Email" ? "_blank" : undefined}
-                  rel={link.label !== "Email" ? "noopener noreferrer" : undefined}
-                  className="group flex items-center justify-between gap-4 rounded-xl border border-transparent p-4 transition-all duration-300 lg:flex-row-reverse active:bg-secondary/30 hover:border-border/50 hover:bg-card/50 glass animate-fade-in"
-                  style={{ animationDelay: `${index * 100 + 400}ms` }}
-                >
-                  <div className="flex items-center gap-3 lg:flex-row-reverse">
-                    <link.icon className="h-5 w-5 text-muted-foreground transition-all duration-300 group-hover:text-primary group-hover:scale-110" />
-                    <span className="font-mono text-sm font-medium transition-colors group-hover:text-gradient">
-                      {link.label}
-                    </span>
-                  </div>
-                  <span className="font-mono text-xs text-muted-foreground truncate">{link.handle}</span>
-                </a>
-              ))}
-            </div>
-          </div> */}
+        <div className="text-center text-sm text-muted-foreground">
+          <p>© 2026 CodingSphere. All rights reserved.</p>
         </div>
       </div>
     </footer>

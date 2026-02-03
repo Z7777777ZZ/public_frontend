@@ -79,7 +79,7 @@ function ContributorAvatar({ contributor, index }: { contributor: Contributor; i
   )
 }
 
-export function ContributersPageContent() {
+export function ContactPageContent() {
   const contactEmail = "binbinz@zju.edu.cn"
   
   return (
@@ -150,22 +150,6 @@ export function ContributersPageContent() {
               />
             ))}
           </div>
-        </div>
-
-        {/* Additional Contact Info */}
-        <div 
-          className="mt-12 pt-8 border-t border-border/30 text-center animate-slide-up-fade"
-          style={{ animationDelay: "300ms" }}
-        >
-          <p className="text-sm text-muted-foreground">
-            Interested in our research? Reach out at{" "}
-            <a 
-              href={`mailto:${contactEmail}`}
-              className="text-primary hover:underline underline-offset-4"
-            >
-              {contactEmail}
-            </a>
-          </p>
         </div>
       </div>
     </section>

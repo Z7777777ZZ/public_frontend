@@ -13,7 +13,7 @@ const navItems = [
   { label: "Datasets", href: "/datasets" },
   { label: "Evaluation", href: "/rank" },
   { label: "Tests", href: "/tests" },
-  { label: "Contributors", href: "/contributers" },
+  { label: "Contact", href: "/contact" },
 ]
 
 export function Header() {
