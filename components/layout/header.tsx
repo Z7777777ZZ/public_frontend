@@ -11,7 +11,7 @@ const navItems = [
   { label: "Home", href: "/" },
   // { label: "Categories", href: "/categories" },
   { label: "Datasets", href: "/datasets" },
-  { label: "Evaluation", href: "/rank" },
+  { label: "Evaluation", href: "/evaluation" },
   { label: "Tests", href: "/tests" },
   { label: "Contact", href: "/contact" },
 ]

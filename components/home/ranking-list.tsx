@@ -177,7 +177,7 @@ export function RankingList() {
           <div className="border-t border-border/50 bg-secondary/30 px-4 sm:px-5 py-4">
             <div className="flex items-center justify-between font-mono text-xs text-muted-foreground">
               <span>Sorted by passed cases</span>
-              <Link href="/rank" className="text-primary hover:underline transition-colors">
+              <Link href="/evaluation" className="text-primary hover:underline transition-colors">
                 View full results →
               </Link>
             </div>
