@@ -17,8 +17,8 @@ export function getAssetPath(path: string): string {
     return path
   }
   
-  // 在生产环境下添加 basePath
-  const basePath = process.env.NODE_ENV === 'production' ? '/codingsphere' : ''
+  // 使用环境变量中的 basePath（构建时注入）
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ''
   
   // 确保路径以 / 开头
   const normalizedPath = path.startsWith('/') ? path : `/${path}`

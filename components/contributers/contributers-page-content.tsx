@@ -2,6 +2,7 @@
 
 import { Mail, Users, ArrowRight, Sparkles } from "lucide-react"
 import NextImage from "next/image"
+import { getAssetPath } from "@/lib/utils"
 
 type Contributor = {
   id: number
@@ -58,7 +59,7 @@ function ContributorAvatar({ contributor, index }: { contributor: Contributor; i
     >
       <div className="relative h-12 w-12 rounded-full overflow-hidden ring-2 ring-border/50 transition-all duration-300 group-hover:ring-primary/50 group-hover:scale-105">
         <NextImage
-          src={contributor.avatar}
+          src={getAssetPath(contributor.avatar)}
           alt={contributor.name}
           fill
           sizes="48px"

@@ -1,41 +1,41 @@
-import { ProjectsPageContent } from "@/components/projects/projects-page-content";
+import { NotesPageContent } from "@/components/notes/notes-page-content";
 import type { Metadata } from "next";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://eindev.ir';
 
 export const metadata: Metadata = {
-  title: "CodingSphere",
-  description: "Explore open source projects, experiments, and tools. From web applications to systems programming, dive into the code.",
-  keywords: ["open source", "projects", "web development", "systems programming", "experiments"],
+  title: "Lab Notes - CodingSphere",
+  description: "Research notes, experiments, and insights from the coding lab. Technical documentation and findings.",
+  keywords: ["lab notes", "research", "experiments", "technical documentation", "coding insights"],
   openGraph: {
-    title: "CodingSphere",
-    description: "Explore open source projects, experiments, and tools.",
-    url: `${baseUrl}/projects`,
+    title: "Lab Notes - CodingSphere",
+    description: "Research notes, experiments, and insights from the coding lab.",
+    url: `${baseUrl}/notes`,
     type: "website",
     images: [
       {
-        url: `${baseUrl}/og-image-projects.png`,
+        url: `${baseUrl}/og-image.png`,
         width: 1200,
         height: 630,
-        alt: "CodingSphere Projects",
+        alt: "CodingSphere Lab Notes",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "CodingSphere",
-    description: "Explore open source projects, experiments, and tools.",
-    images: [`${baseUrl}/og-image-projects.png`],
+    title: "Lab Notes - CodingSphere",
+    description: "Research notes, experiments, and insights from the coding lab.",
+    images: [`${baseUrl}/og-image.png`],
   },
   alternates: {
-    canonical: `${baseUrl}/projects`,
+    canonical: `${baseUrl}/notes`,
   },
 };
 
-export default function ProjectsPage() {
+export default function NotesPage() {
   return (
     <div className="pt-24">
-      <ProjectsPageContent />
+      <NotesPageContent />
     </div>
   );
 }

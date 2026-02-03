@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     },
   },
   // icons 配置已移除，Next.js 会自动使用 app/icon.png
-  manifest: "/site.webmanifest",
+  manifest: `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/site.webmanifest`,
 }
 
 export default function RootLayout({

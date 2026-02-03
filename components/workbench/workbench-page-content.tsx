@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 import { CheckCircle2, XCircle, BarChart3, Shield } from "lucide-react"
 import NextImage from "next/image"
 
@@ -136,7 +136,7 @@ export function WorkbenchPageContent() {
                           {item.logo ? (
                             <div className="relative h-8 w-8 shrink-0">
                               <NextImage
-                                src={item.logo}
+                                src={getAssetPath(item.logo)}
                                 alt={item.name}
                                 fill
                                 className="object-contain"

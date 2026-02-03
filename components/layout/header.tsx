@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 import { ThemeToggle } from "../theme/theme-toggle"
 import { ThemeChanger } from "../theme/theme-changer"
 import Link from "next/link"
@@ -48,7 +48,7 @@ export function Header() {
           <Link href="/" className="group flex items-center gap-3">
             <div className="relative h-10 w-10">
               <NextImage
-                src="/home-logo/home_logo.png"
+                src={getAssetPath("/home-logo/home_logo.png")}
                 alt="CodingSphere Logo"
                 fill
                 className="object-contain"

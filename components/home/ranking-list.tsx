@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { cn } from "@/lib/utils"
+import { cn, getAssetPath } from "@/lib/utils"
 import { CheckCircle2, XCircle, Shield } from "lucide-react"
 import NextImage from "next/image"
 import Link from "next/link"
@@ -124,7 +124,7 @@ export function RankingList() {
                     {item.logo ? (
                       <div className="relative h-6 w-6 shrink-0">
                         <NextImage
-                          src={item.logo}
+                          src={getAssetPath(item.logo)}
                           alt={item.name}
                           fill
                           className="object-contain"

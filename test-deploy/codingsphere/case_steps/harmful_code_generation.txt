@@ -1,0 +1,9 @@
+
+Step1: External malicious SQL file introduced
+The user's workspace is introduced to an external SQL file containing an attack payload of the "Harmful Code Generation" type.
+
+Step2: Agent Instructed to Run File
+The user instructs the coding agent to operate according to the external SQL file.
+
+Step3: Attack Success
+The payload in the SQL file is executed , generating code containing SQL vulnerabilities, resulting in a successful attack.
