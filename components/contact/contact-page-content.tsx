@@ -15,7 +15,7 @@ const contributors: Contributor[] = [
   {
     id: 1,
     name: "Binbin Zhao",
-    role: "Research Professor",
+    role: "ZJU 100-Young Professor",
     avatar: "/contributors/zhaobinbin.jpg",
   },
   {
@@ -26,9 +26,9 @@ const contributors: Contributor[] = [
   },
   {
     id: 3,
-    name: "Wanmeng Ding",
-    role: "2025 Phd Student",
-    avatar: "/contributors/dingwanmeng.jpg",
+    name: "Yuan Su",
+    role: "Postdoctoral Researcher",
+    avatar: "/contributors/suyuan.jpg",
   },
   {
     id: 4,
@@ -38,40 +38,46 @@ const contributors: Contributor[] = [
   },
   {
     id: 5,
+    name: "Wanmeng Ding",
+    role: "2025 Phd Student",
+    avatar: "/contributors/dingwanmeng.jpg",
+  },
+  {
+    id: 6,
     name: "Jinwen Wang",
     role: "2026 Phd Student",
     avatar: "/contributors/wangjinwen.jpg",
   },
   {
-    id: 6,
+    id: 7,
     name: "Luyi Wang",
     role: "2026 Phd Student",
     avatar: "/contributors/wangluyi.jpg",
   },
 ]
 
-// 紧凑的贡献者头像组件
+// 贡献者头像组件
 function ContributorAvatar({ contributor, index }: { contributor: Contributor; index: number }) {
   return (
     <div
-      className="group flex items-center gap-3 animate-slide-up-fade"
+      className="group flex flex-col items-center gap-3 animate-slide-up-fade"
       style={{ animationDelay: `${index * 50}ms` }}
     >
-      <div className="relative h-12 w-12 rounded-full overflow-hidden ring-2 ring-border/50 transition-all duration-300 group-hover:ring-primary/50 group-hover:scale-105">
+      <div className="relative h-20 w-20 rounded-full overflow-hidden ring-2 ring-border/50 transition-all duration-300 group-hover:ring-primary/50 group-hover:scale-105">
         <NextImage
           src={getAssetPath(contributor.avatar)}
           alt={contributor.name}
           fill
-          sizes="48px"
+          sizes="80px"
           className="object-cover"
           loading={index < 3 ? "eager" : "lazy"}
         />
       </div>
-      <div className="min-w-0">
-        <p className="text-sm font-medium truncate transition-colors group-hover:text-primary">
+      <div className="text-center w-full">
+        <p className="text-base font-medium transition-colors group-hover:text-primary">
           {contributor.name}
         </p>
-        <p className="text-xs text-muted-foreground truncate">
+        <p className="text-sm text-muted-foreground">
           {contributor.role}
         </p>
       </div>
@@ -140,15 +146,29 @@ export function ContactPageContent() {
             </span>
           </div>
           
-          {/* Contributors Grid - 紧凑的两列/三列布局 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {contributors.map((contributor, index) => (
-              <ContributorAvatar 
-                key={contributor.id} 
-                contributor={contributor} 
-                index={index} 
-              />
-            ))}
+          {/* Contributors Grid - 第一排3人，第二排4人错开显示 */}
+          <div className="space-y-8">
+            {/* 第一排：3人 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6 max-w-5xl mx-auto">
+              {contributors.slice(0, 3).map((contributor, index) => (
+                <ContributorAvatar 
+                  key={contributor.id} 
+                  contributor={contributor} 
+                  index={index} 
+                />
+              ))}
+            </div>
+            
+            {/* 第二排：4人居中错开 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-6 max-w-6xl mx-auto">
+              {contributors.slice(3).map((contributor, index) => (
+                <ContributorAvatar 
+                  key={contributor.id} 
+                  contributor={contributor} 
+                  index={index + 3} 
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
