@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
-import { cn, getAssetPath } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { ThemeToggle } from "../theme/theme-toggle"
 import { ThemeChanger } from "../theme/theme-changer"
 import Link from "next/link"
-import NextImage from "next/image"
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -45,18 +44,10 @@ export function Header() {
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 py-4">
         <nav className="flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="relative h-10 w-10">
-              <NextImage
-                src={getAssetPath("/home-logo/home_logo.png")}
-                alt="CodingSphere Logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <span className="font-mono text-sm tracking-tight">
-              Coding
-              <span className="bg-gradient-to-l from-primary/50 to-accent bg-clip-text text-transparent font-semibold">
+          <Link href="/" className="group flex items-center">
+            <span className="font-mono text-lg font-semibold tracking-tight transition-all duration-300">
+              <span className="text-foreground group-hover:text-primary transition-colors">Coding</span>
+              <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient">
                 Sphere
               </span>
             </span>

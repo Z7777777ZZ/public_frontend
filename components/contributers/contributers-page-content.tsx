@@ -39,7 +39,7 @@ const contributors: Contributor[] = [
   {
     id: 5,
     name: "Jinwen Wang",
-    role: "2026 Master Student",
+    role: "2026 Phd Student",
     avatar: "/contributors/wangjinwen.jpg",
   },
   {
